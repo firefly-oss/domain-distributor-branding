@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "distributor-domain-branding",
+    "title": "domain-distributor-branding",
     "description": "Distributor Domain Branding Layer Application",
     "contact": {
       "name": "Firefly Software Solutions Inc",
@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://core.getfirefly.io/distributor-domain-branding",
+      "url": "http://core.getfirefly.io/domain-distributor-branding",
       "description": "Development Environment"
     },
     {

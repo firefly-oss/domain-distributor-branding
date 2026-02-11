@@ -1,6 +1,6 @@
 spring:
   application:
-    name: distributor-domain-branding
+    name: domain-distributor-branding
     version: 1.0.0
     description: Distributor Domain Branding Layer Application
     team:

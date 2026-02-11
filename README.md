@@ -1,4 +1,4 @@
-# distributor-domain-branding
+# domain-distributor-branding
 
 Domain layer microservice responsible for orchestrating distributor branding and terms & conditions operations. This service acts as the domain orchestration layer between API consumers and the `common-platform-distributor-mgmt` management service, coordinating multi-step workflows through saga-based distributed transactions.
 
@@ -18,11 +18,11 @@ The Distributor Domain Branding service manages the full lifecycle of distributo
 
 | Module | Description |
 |--------|-------------|
-| `distributor-domain-branding-core` | Business logic: commands, handlers, saga workflows, service interfaces and implementations |
-| `distributor-domain-branding-interfaces` | Interface adapters connecting core to infrastructure and external boundaries |
-| `distributor-domain-branding-infra` | Infrastructure layer: API client factory, configuration properties, external service integration |
-| `distributor-domain-branding-web` | Spring Boot WebFlux application: REST controllers, application entry point, configuration |
-| `distributor-domain-branding-sdk` | Auto-generated client SDK from OpenAPI spec for downstream consumers |
+| `domain-distributor-branding-core` | Business logic: commands, handlers, saga workflows, service interfaces and implementations |
+| `domain-distributor-branding-interfaces` | Interface adapters connecting core to infrastructure and external boundaries |
+| `domain-distributor-branding-infra` | Infrastructure layer: API client factory, configuration properties, external service integration |
+| `domain-distributor-branding-web` | Spring Boot WebFlux application: REST controllers, application entry point, configuration |
+| `domain-distributor-branding-sdk` | Auto-generated client SDK from OpenAPI spec for downstream consumers |
 
 ### Tech Stack
 
@@ -87,7 +87,7 @@ The service imports its full configuration from Spring Cloud Config Server. The 
 ```yaml
 spring:
   application:
-    name: distributor-domain-branding
+    name: domain-distributor-branding
     version: 1.0.0
     description: Distributor Domain Branding Layer Application
     team:
@@ -111,13 +111,13 @@ mvn clean install
 ### Run
 
 ```bash
-mvn -pl distributor-domain-branding-web spring-boot:run
+mvn -pl domain-distributor-branding-web spring-boot:run
 ```
 
 Or run the packaged JAR:
 
 ```bash
-java -jar distributor-domain-branding-web/target/distributor-domain-branding.jar
+java -jar domain-distributor-branding-web/target/domain-distributor-branding.jar
 ```
 
 ## API Endpoints
@@ -205,4 +205,4 @@ OpenAPI documentation is available at:
 
 ## Repository
 
-[https://github.com/firefly-oss/distributor-domain-branding](https://github.com/firefly-oss/distributor-domain-branding)
+[https://github.com/firefly-oss/domain-distributor-branding](https://github.com/firefly-oss/domain-distributor-branding)

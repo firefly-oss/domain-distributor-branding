@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.firefly</groupId>
-        <artifactId>distributor-domain-branding</artifactId>
+        <artifactId>domain-distributor-branding</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>distributor-domain-branding-sdk</artifactId>
+    <artifactId>domain-distributor-branding-sdk</artifactId>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
@@ -29,7 +29,7 @@
         <!-- Web module for OpenAPI spec -->
         <dependency>
             <groupId>com.firefly</groupId>
-            <artifactId>distributor-domain-branding-web</artifactId>
+            <artifactId>domain-distributor-branding-web</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -101,7 +101,7 @@
                 <version>${openapi-generator.version}</version>
                 <executions>
                     <execution>
-                        <id>distributor-domain-branding-sdk</id>
+                        <id>domain-distributor-branding-sdk</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
