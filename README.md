@@ -1,6 +1,6 @@
 # domain-distributor-branding
 
-Domain layer microservice responsible for orchestrating distributor branding and terms & conditions operations. This service acts as the domain orchestration layer between API consumers and the `common-platform-distributor-mgmt` management service, coordinating multi-step workflows through saga-based distributed transactions.
+Domain layer microservice responsible for orchestrating distributor branding and terms & conditions operations. This service acts as the domain orchestration layer between API consumers and the `core-common-distributor-mgmt` management service, coordinating multi-step workflows through saga-based distributed transactions.
 
 ## Overview
 
@@ -72,7 +72,7 @@ The service emits the following events via `@StepEvent`:
 - **Java 25**
 - **Maven 3.9+**
 - Access to the FireflyFramework Maven repository for parent POM and BOM dependencies
-- Running instance of `common-platform-distributor-mgmt` service (or its API accessible at the configured base path)
+- Running instance of `core-common-distributor-mgmt` service (or its API accessible at the configured base path)
 
 ### Environment Variables
 
