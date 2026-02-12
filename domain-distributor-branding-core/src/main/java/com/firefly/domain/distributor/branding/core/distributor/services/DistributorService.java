@@ -4,7 +4,7 @@ import com.firefly.domain.distributor.branding.core.distributor.commands.Registe
 import com.firefly.domain.distributor.branding.core.distributor.commands.ReviseBrandingCommand;
 import com.firefly.domain.distributor.branding.core.distributor.commands.ReviseTermsAndConditionsCommand;
 import com.firefly.domain.distributor.branding.core.distributor.commands.SetDefaultBrandingCommand;
-import com.firefly.transactional.saga.core.SagaResult;
+import org.fireflyframework.transactional.saga.core.SagaResult;
 import reactor.core.publisher.Mono;
 
 public interface DistributorService {

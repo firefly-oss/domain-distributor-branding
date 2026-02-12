@@ -16,8 +16,8 @@
 
 package com.firefly.domain.distributor.branding.core.distributor.handlers;
 
-import com.firefly.common.cqrs.annotations.QueryHandlerComponent;
-import com.firefly.common.cqrs.query.QueryHandler;
+import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
+import org.fireflyframework.cqrs.query.QueryHandler;
 import com.firefly.domain.distributor.branding.core.distributor.queries.ReviewBrandingAuditLogsQuery;
 import reactor.core.publisher.Mono;
 

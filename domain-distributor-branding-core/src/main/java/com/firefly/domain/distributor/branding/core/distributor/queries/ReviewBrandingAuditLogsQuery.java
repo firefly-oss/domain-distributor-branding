@@ -16,7 +16,7 @@
 
 package com.firefly.domain.distributor.branding.core.distributor.queries;
 
-import com.firefly.common.cqrs.query.Query;
+import org.fireflyframework.cqrs.query.Query;
 import lombok.Data;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.firefly.domain.distributor.branding.core.distributor.handlers;
 
-import com.firefly.common.cqrs.annotations.CommandHandlerComponent;
-import com.firefly.common.cqrs.command.CommandHandler;
+import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
+import org.fireflyframework.cqrs.command.CommandHandler;
 import com.firefly.core.distributor.sdk.api.DistributorTermsAndConditionsApi;
 import com.firefly.domain.distributor.branding.core.distributor.commands.RemoveTermsAndConditionsCommand;
 import reactor.core.publisher.Mono;
@@ -17,7 +17,7 @@ public class RemoveTermsAndConditionsHandler extends CommandHandler<RemoveTermsA
 
     @Override
     protected Mono<Void> doHandle(RemoveTermsAndConditionsCommand cmd) {
-        return distributorTermsAndConditionsApi.deleteDistributorTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId());
+        return distributorTermsAndConditionsApi.deleteDistributorTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId(), null);
     }
 }
 
