@@ -1,6 +1,5 @@
 package com.firefly.domain.distributor.branding.web;
 
-import org.fireflyframework.transactional.shared.annotations.EnableTransactionalEngine;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -39,7 +38,6 @@ import org.springframework.web.reactive.config.EnableWebFlux;
                 )
         }
 )
-@EnableTransactionalEngine
 public class DistributorDomainBrandingApplication {
     public static void main(String[] args) {
         SpringApplication.run(DistributorDomainBrandingApplication.class, args);

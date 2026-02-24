@@ -9,9 +9,9 @@ import com.firefly.domain.distributor.branding.core.distributor.workflows.Regist
 import com.firefly.domain.distributor.branding.core.distributor.workflows.SetDefaultBrandingSaga;
 import com.firefly.domain.distributor.branding.core.distributor.workflows.UpdateBrandingSaga;
 import com.firefly.domain.distributor.branding.core.distributor.workflows.UpdateTermsAndConditionsSaga;
-import org.fireflyframework.transactional.saga.core.SagaResult;
-import org.fireflyframework.transactional.saga.engine.SagaEngine;
-import org.fireflyframework.transactional.saga.engine.StepInputs;
+import org.fireflyframework.orchestration.saga.engine.SagaResult;
+import org.fireflyframework.orchestration.saga.engine.SagaEngine;
+import org.fireflyframework.orchestration.saga.engine.StepInputs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -29,38 +29,38 @@ public class DistributorServiceImpl implements DistributorService {
     @Override
     public Mono<SagaResult> onboardDistributor(RegisterDistributorCommand command) {
         StepInputs inputs = StepInputs.builder()
-                .forStep(RegisterDistributorSaga::registerDistributor, command.getDistributorInfo())
-                .forStep(RegisterDistributorSaga::registerTAndCTemplate, command.getTermsAndConditionsTemplate())
-                .forStep(RegisterDistributorSaga::registerTermsAndConditions, command.getTermsAndConditions())
-                .forStep(RegisterDistributorSaga::registerAuditLog, command.getAuditLog())
-                .forStep(RegisterDistributorSaga::registerBranding, command.getBranding())
+                .forStepId("registerDistributor", command.getDistributorInfo())
+                .forStepId("registerTAndCTemplate", command.getTermsAndConditionsTemplate())
+                .forStepId("registerTermsAndConditions", command.getTermsAndConditions())
+                .forStepId("registerAuditLog", command.getAuditLog())
+                .forStepId("registerBranding", command.getBranding())
 
                 .build();
 
-        return engine.execute(RegisterDistributorSaga.class, inputs);
+        return engine.execute("RegisterDistributorSaga", inputs);
     }
 
     @Override
     public Mono<SagaResult> reviseBranding(ReviseBrandingCommand command) {
         StepInputs inputs = StepInputs.builder()
-                .forStep(UpdateBrandingSaga::reviseBranding, command).build();
+                .forStepId("updateBranding", command).build();
 
-        return engine.execute(UpdateBrandingSaga.class, inputs);
+        return engine.execute("UpdateBrandingSaga", inputs);
     }
 
     @Override
     public Mono<SagaResult> setDefaultBranding(SetDefaultBrandingCommand command) {
         StepInputs inputs = StepInputs.builder()
-                .forStep(SetDefaultBrandingSaga::setDefaultBranding, command).build();
-        return engine.execute(SetDefaultBrandingSaga.class, inputs);
+                .forStepId("setDefaultBranding", command).build();
+        return engine.execute("SetDefaultBrandingSaga", inputs);
     }
 
     @Override
     public Mono<SagaResult> reviseTermsAndConditions(ReviseTermsAndConditionsCommand command) {
         StepInputs inputs = StepInputs.builder()
-                .forStep(UpdateTermsAndConditionsSaga::reviseTermsAndConditions, command).build();
+                .forStepId("updateTermsAndConditions", command).build();
 
-        return engine.execute(UpdateTermsAndConditionsSaga.class, inputs);
+        return engine.execute("UpdateTermsAndConditionsSaga", inputs);
     }
 
 }
