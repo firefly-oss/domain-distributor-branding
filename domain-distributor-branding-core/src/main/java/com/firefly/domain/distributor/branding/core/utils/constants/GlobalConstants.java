@@ -9,5 +9,14 @@ public class GlobalConstants {
     public static final String CTX_AUDIT_LOG_ID = "auditLogId";
     public static final String CTX_BRANDING_ID = "brandingId";
 
+    // RegisterAgencySaga context
+    public static final String CTX_TERRITORY_ID = "territoryId";
+    public static final String CTX_AGENCY_ID = "agencyId";
+    public static final String CTX_OPERATION_ID = "operationId";
+
+    // RegisterAgentSaga context
+    public static final String CTX_AGENT_ID = "agentId";
+    public static final String CTX_AGENT_AGENCY_ID = "agentAgencyId";
+
 
 }

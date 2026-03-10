@@ -47,5 +47,34 @@ public class ClientFactory {
         return new DistributorBrandingApi(apiClient);
     }
 
+    @Bean
+    public DistributorAuthorizedTerritoriesApi distributorAuthorizedTerritoriesApi() {
+        return new DistributorAuthorizedTerritoriesApi(apiClient);
+    }
+
+    @Bean
+    public DistributorAgenciesApi distributorAgenciesApi() {
+        return new DistributorAgenciesApi(apiClient);
+    }
+
+    @Bean
+    public DistributorAgentsApi distributorAgentsApi() {
+        return new DistributorAgentsApi(apiClient);
+    }
+
+    @Bean
+    public DistributorAgentAgencyApi distributorAgentAgencyApi() {
+        return new DistributorAgentAgencyApi(apiClient);
+    }
+
+    @Bean
+    public DistributorOperationsApi distributorOperationsApi() {
+        return new DistributorOperationsApi(apiClient);
+    }
+
+    @Bean
+    public DistributorConfigurationsApi distributorConfigurationsApi() {
+        return new DistributorConfigurationsApi(apiClient);
+    }
 
 }
