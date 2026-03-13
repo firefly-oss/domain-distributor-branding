@@ -20,6 +20,6 @@ public class DeleteAgentHandler extends CommandHandler<DeleteAgentCommand, Void>
 
     @Override
     protected Mono<Void> doHandle(DeleteAgentCommand cmd) {
-        return agentsApi.delete4(cmd.distributorId(), cmd.agentId(), null);
+        return agentsApi.delete4(cmd.distributorId(), cmd.agentId());
     }
 }

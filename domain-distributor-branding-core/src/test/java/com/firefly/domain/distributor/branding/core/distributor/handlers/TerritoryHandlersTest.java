@@ -51,11 +51,11 @@ class TerritoryHandlersTest {
     }
 
     @Test
-    void createTerritory_shouldCallApiWithIdempotencyKey() {
+    void createTerritory_shouldCallApi() {
         var dto = new DistributorAuthorizedTerritoryDTO();
         dto.setId(territoryId);
 
-        when(territoriesApi.create3(eq(distributorId), any(CreateTerritoryCommand.class), argThat(s -> s != null && !s.isEmpty())))
+        when(territoriesApi.create3(eq(distributorId), any(CreateTerritoryCommand.class)))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new CreateTerritoryCommand();
@@ -65,15 +65,15 @@ class TerritoryHandlersTest {
                 .expectNext(territoryId)
                 .verifyComplete();
 
-        verify(territoriesApi).create3(eq(distributorId), any(), argThat(s -> s != null && !s.isEmpty()));
+        verify(territoriesApi).create3(eq(distributorId), any());
     }
 
     @Test
-    void getTerritory_shouldCallApiWithNullIdempotencyKey() {
+    void getTerritory_shouldCallApi() {
         var dto = new DistributorAuthorizedTerritoryDTO();
         dto.setId(territoryId);
 
-        when(territoriesApi.getById3(distributorId, territoryId, null))
+        when(territoriesApi.getById3(distributorId, territoryId))
                 .thenReturn(Mono.just(dto));
 
         var query = new GetTerritoryQuery(distributorId, territoryId);
@@ -82,14 +82,14 @@ class TerritoryHandlersTest {
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(territoriesApi).getById3(distributorId, territoryId, null);
+        verify(territoriesApi).getById3(distributorId, territoryId);
     }
 
     @Test
-    void listTerritories_shouldCallFilterApiWithNullIdempotencyKey() {
+    void listTerritories_shouldCallFilterApi() {
         var response = new PaginationResponse();
 
-        when(territoriesApi.filter3(eq(distributorId), any(FilterRequestDistributorAuthorizedTerritoryDTO.class), isNull()))
+        when(territoriesApi.filter3(eq(distributorId), any(FilterRequestDistributorAuthorizedTerritoryDTO.class)))
                 .thenReturn(Mono.just(response));
 
         var query = new ListTerritoriesQuery(distributorId);
@@ -98,15 +98,15 @@ class TerritoryHandlersTest {
                 .expectNext(response)
                 .verifyComplete();
 
-        verify(territoriesApi).filter3(eq(distributorId), any(), isNull());
+        verify(territoriesApi).filter3(eq(distributorId), any());
     }
 
     @Test
-    void updateTerritory_shouldCallApiWithIdempotencyKey() {
+    void updateTerritory_shouldCallApi() {
         var dto = new DistributorAuthorizedTerritoryDTO();
         dto.setId(territoryId);
 
-        when(territoriesApi.update3(eq(distributorId), eq(territoryId), any(UpdateTerritoryCommand.class), argThat(s -> s != null && !s.isEmpty())))
+        when(territoriesApi.update3(eq(distributorId), eq(territoryId), any(UpdateTerritoryCommand.class)))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new UpdateTerritoryCommand();
@@ -117,12 +117,12 @@ class TerritoryHandlersTest {
                 .expectNext(territoryId)
                 .verifyComplete();
 
-        verify(territoriesApi).update3(eq(distributorId), eq(territoryId), any(), argThat(s -> s != null && !s.isEmpty()));
+        verify(territoriesApi).update3(eq(distributorId), eq(territoryId), any());
     }
 
     @Test
-    void deleteTerritory_shouldCallApiWithNullIdempotencyKey() {
-        when(territoriesApi.delete3(distributorId, territoryId, null))
+    void deleteTerritory_shouldCallApi() {
+        when(territoriesApi.delete3(distributorId, territoryId))
                 .thenReturn(Mono.empty());
 
         var cmd = new DeleteTerritoryCommand(distributorId, territoryId);
@@ -130,6 +130,6 @@ class TerritoryHandlersTest {
         StepVerifier.create(deleteHandler.doHandle(cmd))
                 .verifyComplete();
 
-        verify(territoriesApi).delete3(distributorId, territoryId, null);
+        verify(territoriesApi).delete3(distributorId, territoryId);
     }
 }

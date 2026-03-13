@@ -21,6 +21,6 @@ public class GetLatestTermsAndConditionsHandler extends QueryHandler<GetLatestTe
 
     @Override
     protected Mono<DistributorTermsAndConditionsDTO> doHandle(GetLatestTermsAndConditionsQuery query) {
-        return termsApi.getLatestTermsAndConditions(query.distributorId(), null);
+        return termsApi.getLatestTermsAndConditions(query.distributorId());
     }
 }

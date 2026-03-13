@@ -51,10 +51,10 @@ class AgentHandlersTest {
     }
 
     @Test
-    void createAgent_shouldCallApiWithIdempotencyKey() {
+    void createAgent_shouldCallApi() {
         var dto = new DistributorAgentDTO(agentId, null, null, null, null);
 
-        when(agentsApi.create4(eq(distributorId), any(CreateAgentCommand.class), argThat(s -> s != null && !s.isEmpty())))
+        when(agentsApi.create4(eq(distributorId), any(CreateAgentCommand.class)))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new CreateAgentCommand();
@@ -64,42 +64,42 @@ class AgentHandlersTest {
                 .expectNext(agentId)
                 .verifyComplete();
 
-        verify(agentsApi).create4(eq(distributorId), any(), argThat(s -> s != null && !s.isEmpty()));
+        verify(agentsApi).create4(eq(distributorId), any());
     }
 
     @Test
-    void getAgent_shouldCallApiWithNullIdempotencyKey() {
+    void getAgent_shouldCallApi() {
         var dto = new DistributorAgentDTO(agentId, null, null, null, null);
 
-        when(agentsApi.getById4(distributorId, agentId, null))
+        when(agentsApi.getById4(distributorId, agentId))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(getHandler.doHandle(new GetAgentQuery(distributorId, agentId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(agentsApi).getById4(distributorId, agentId, null);
+        verify(agentsApi).getById4(distributorId, agentId);
     }
 
     @Test
-    void listAgents_shouldCallFilterApiWithNullIdempotencyKey() {
+    void listAgents_shouldCallFilterApi() {
         var response = new PaginationResponse();
 
-        when(agentsApi.filter4(eq(distributorId), any(FilterRequestDistributorAgentDTO.class), isNull()))
+        when(agentsApi.filter4(eq(distributorId), any(FilterRequestDistributorAgentDTO.class)))
                 .thenReturn(Mono.just(response));
 
         StepVerifier.create(listHandler.doHandle(new ListAgentsQuery(distributorId)))
                 .expectNext(response)
                 .verifyComplete();
 
-        verify(agentsApi).filter4(eq(distributorId), any(), isNull());
+        verify(agentsApi).filter4(eq(distributorId), any());
     }
 
     @Test
-    void updateAgent_shouldCallApiWithIdempotencyKey() {
+    void updateAgent_shouldCallApi() {
         var dto = new DistributorAgentDTO(agentId, null, null, null, null);
 
-        when(agentsApi.update4(eq(distributorId), eq(agentId), any(UpdateAgentCommand.class), argThat(s -> s != null && !s.isEmpty())))
+        when(agentsApi.update4(eq(distributorId), eq(agentId), any(UpdateAgentCommand.class)))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new UpdateAgentCommand();
@@ -110,17 +110,17 @@ class AgentHandlersTest {
                 .expectNext(agentId)
                 .verifyComplete();
 
-        verify(agentsApi).update4(eq(distributorId), eq(agentId), any(), argThat(s -> s != null && !s.isEmpty()));
+        verify(agentsApi).update4(eq(distributorId), eq(agentId), any());
     }
 
     @Test
-    void deleteAgent_shouldCallApiWithNullIdempotencyKey() {
-        when(agentsApi.delete4(distributorId, agentId, null))
+    void deleteAgent_shouldCallApi() {
+        when(agentsApi.delete4(distributorId, agentId))
                 .thenReturn(Mono.empty());
 
         StepVerifier.create(deleteHandler.doHandle(new DeleteAgentCommand(distributorId, agentId)))
                 .verifyComplete();
 
-        verify(agentsApi).delete4(distributorId, agentId, null);
+        verify(agentsApi).delete4(distributorId, agentId);
     }
 }

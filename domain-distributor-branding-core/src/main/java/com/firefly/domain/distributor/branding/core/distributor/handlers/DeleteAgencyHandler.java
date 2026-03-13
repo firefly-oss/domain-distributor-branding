@@ -20,6 +20,6 @@ public class DeleteAgencyHandler extends CommandHandler<DeleteAgencyCommand, Voi
 
     @Override
     protected Mono<Void> doHandle(DeleteAgencyCommand cmd) {
-        return agenciesApi.delete6(cmd.distributorId(), cmd.agencyId(), null);
+        return agenciesApi.delete6(cmd.distributorId(), cmd.agencyId());
     }
 }

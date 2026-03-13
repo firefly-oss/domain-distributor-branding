@@ -23,7 +23,7 @@ public class UpdateConfigurationHandler extends CommandHandler<UpdateConfigurati
 
     @Override
     protected Mono<UUID> doHandle(UpdateConfigurationCommand cmd) {
-        return configurationsApi.update2(cmd.getDistributorId(), cmd.getId(), cmd, UUID.randomUUID().toString())
+        return configurationsApi.update2(cmd.getDistributorId(), cmd.getId(), cmd)
                 .mapNotNull(dto -> Objects.requireNonNull(Objects.requireNonNull(dto).getId()));
     }
 }

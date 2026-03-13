@@ -21,6 +21,6 @@ public class ListOperationsHandler extends QueryHandler<ListOperationsQuery, Dis
 
     @Override
     protected Mono<DistributorOperationDTO> doHandle(ListOperationsQuery query) {
-        return operationsApi.getOperationsByDistributorId(query.distributorId(), null);
+        return operationsApi.getOperationsByDistributorId(query.distributorId());
     }
 }

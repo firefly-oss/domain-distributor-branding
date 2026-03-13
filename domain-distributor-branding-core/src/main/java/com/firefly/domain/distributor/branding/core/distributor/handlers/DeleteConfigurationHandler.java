@@ -20,6 +20,6 @@ public class DeleteConfigurationHandler extends CommandHandler<DeleteConfigurati
 
     @Override
     protected Mono<Void> doHandle(DeleteConfigurationCommand cmd) {
-        return configurationsApi.delete2(cmd.distributorId(), cmd.configurationId(), null);
+        return configurationsApi.delete2(cmd.distributorId(), cmd.configurationId());
     }
 }

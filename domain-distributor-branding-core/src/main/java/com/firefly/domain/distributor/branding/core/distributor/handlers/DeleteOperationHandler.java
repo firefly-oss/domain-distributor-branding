@@ -20,6 +20,6 @@ public class DeleteOperationHandler extends CommandHandler<DeleteOperationComman
 
     @Override
     protected Mono<Void> doHandle(DeleteOperationCommand cmd) {
-        return operationsApi.deleteDistributorOperation(cmd.distributorId(), cmd.operationId(), null);
+        return operationsApi.deleteDistributorOperation(cmd.distributorId(), cmd.operationId());
     }
 }

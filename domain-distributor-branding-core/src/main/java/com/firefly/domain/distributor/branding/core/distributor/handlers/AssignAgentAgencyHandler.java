@@ -23,7 +23,7 @@ public class AssignAgentAgencyHandler extends CommandHandler<AssignAgentAgencyCo
 
     @Override
     protected Mono<UUID> doHandle(AssignAgentAgencyCommand cmd) {
-        return agentAgencyApi.create5(cmd.getDistributorId(), cmd, UUID.randomUUID().toString())
+        return agentAgencyApi.create5(cmd.getDistributorId(), cmd)
                 .mapNotNull(dto -> Objects.requireNonNull(Objects.requireNonNull(dto)).getId());
     }
 }

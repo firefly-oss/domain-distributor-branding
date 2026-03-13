@@ -17,7 +17,7 @@ public class RemoveBrandingHandler extends CommandHandler<RemoveBrandingCommand,
 
     @Override
     protected Mono<Void> doHandle(RemoveBrandingCommand cmd) {
-        return distributorBrandingApi.deleteDistributorBranding(cmd.distributorId(), cmd.brandingId(), null);
+        return distributorBrandingApi.deleteDistributorBranding(cmd.distributorId(), cmd.brandingId());
     }
 }
 

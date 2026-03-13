@@ -22,6 +22,6 @@ public class ListTerritoriesHandler extends QueryHandler<ListTerritoriesQuery, P
 
     @Override
     protected Mono<PaginationResponse> doHandle(ListTerritoriesQuery query) {
-        return territoriesApi.filter3(query.distributorId(), new FilterRequestDistributorAuthorizedTerritoryDTO(), null);
+        return territoriesApi.filter3(query.distributorId(), new FilterRequestDistributorAuthorizedTerritoryDTO());
     }
 }

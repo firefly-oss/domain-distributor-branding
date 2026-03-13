@@ -21,6 +21,6 @@ public class ListAgentAgenciesHandler extends QueryHandler<ListAgentAgenciesQuer
 
     @Override
     protected Mono<Void> doHandle(ListAgentAgenciesQuery query) {
-        return agentAgencyApi.filter5(query.distributorId(), new FilterRequestDistributorAgentAgencyDTO(), null);
+        return agentAgencyApi.filter5(query.distributorId(), new FilterRequestDistributorAgentAgencyDTO());
     }
 }

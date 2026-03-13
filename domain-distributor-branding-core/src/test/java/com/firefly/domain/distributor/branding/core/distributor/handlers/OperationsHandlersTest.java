@@ -2,7 +2,6 @@ package com.firefly.domain.distributor.branding.core.distributor.handlers;
 
 import com.firefly.core.distributor.sdk.api.DistributorOperationsApi;
 import com.firefly.core.distributor.sdk.model.DistributorOperationDTO;
-import com.firefly.core.distributor.sdk.model.FilterRequestDistributorOperationDTO;
 import com.firefly.domain.distributor.branding.core.distributor.commands.*;
 import com.firefly.domain.distributor.branding.core.distributor.queries.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,10 +54,10 @@ class OperationsHandlersTest {
     }
 
     @Test
-    void createOperation_shouldCallApiWithIdempotencyKey() {
+    void createOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO(operationId, null, null, null, null);
 
-        when(operationsApi.createDistributorOperation(eq(distributorId), any(CreateOperationCommand.class), argThat(s -> s != null && !s.isEmpty())))
+        when(operationsApi.createDistributorOperation(eq(distributorId), any(CreateOperationCommand.class)))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new CreateOperationCommand();
@@ -68,40 +67,40 @@ class OperationsHandlersTest {
                 .expectNext(operationId)
                 .verifyComplete();
 
-        verify(operationsApi).createDistributorOperation(eq(distributorId), any(), argThat(s -> s != null && !s.isEmpty()));
+        verify(operationsApi).createDistributorOperation(eq(distributorId), any());
     }
 
     @Test
-    void getOperation_shouldCallApiWithNullIdempotencyKey() {
+    void getOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.getDistributorOperationById(distributorId, operationId, null))
+        when(operationsApi.getDistributorOperationById(distributorId, operationId))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(getHandler.doHandle(new GetOperationQuery(distributorId, operationId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).getDistributorOperationById(distributorId, operationId, null);
+        verify(operationsApi).getDistributorOperationById(distributorId, operationId);
     }
 
     @Test
-    void listOperations_shouldCallApiWithNullIdempotencyKey() {
+    void listOperations_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.getOperationsByDistributorId(distributorId, null))
+        when(operationsApi.getOperationsByDistributorId(distributorId))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(listHandler.doHandle(new ListOperationsQuery(distributorId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).getOperationsByDistributorId(distributorId, null);
+        verify(operationsApi).getOperationsByDistributorId(distributorId);
     }
 
     @Test
-    void updateOperation_shouldCallApiWithIdempotencyKey() {
+    void updateOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO(operationId, null, null, null, null);
 
-        when(operationsApi.updateDistributorOperation(eq(distributorId), eq(operationId), any(UpdateOperationCommand.class), argThat(s -> s != null && !s.isEmpty())))
+        when(operationsApi.updateDistributorOperation(eq(distributorId), eq(operationId), any(UpdateOperationCommand.class)))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new UpdateOperationCommand();
@@ -112,24 +111,24 @@ class OperationsHandlersTest {
                 .expectNext(operationId)
                 .verifyComplete();
 
-        verify(operationsApi).updateDistributorOperation(eq(distributorId), eq(operationId), any(), argThat(s -> s != null && !s.isEmpty()));
+        verify(operationsApi).updateDistributorOperation(eq(distributorId), eq(operationId), any());
     }
 
     @Test
-    void deleteOperation_shouldCallApiWithNullIdempotencyKey() {
-        when(operationsApi.deleteDistributorOperation(distributorId, operationId, null))
+    void deleteOperation_shouldCallApi() {
+        when(operationsApi.deleteDistributorOperation(distributorId, operationId))
                 .thenReturn(Mono.empty());
 
         StepVerifier.create(deleteHandler.doHandle(new DeleteOperationCommand(distributorId, operationId)))
                 .verifyComplete();
 
-        verify(operationsApi).deleteDistributorOperation(distributorId, operationId, null);
+        verify(operationsApi).deleteDistributorOperation(distributorId, operationId);
     }
 
     @Test
-    void activateOperation_shouldCallApiWithIdempotencyKey() {
+    void activateOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.activateDistributorOperation(eq(distributorId), eq(operationId), eq(userId), argThat(s -> s != null && !s.isEmpty())))
+        when(operationsApi.activateDistributorOperation(distributorId, operationId, userId))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new ActivateOperationCommand(distributorId, operationId, userId);
@@ -138,13 +137,13 @@ class OperationsHandlersTest {
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).activateDistributorOperation(eq(distributorId), eq(operationId), eq(userId), argThat(s -> s != null && !s.isEmpty()));
+        verify(operationsApi).activateDistributorOperation(distributorId, operationId, userId);
     }
 
     @Test
-    void deactivateOperation_shouldCallApiWithIdempotencyKey() {
+    void deactivateOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.deactivateDistributorOperation(eq(distributorId), eq(operationId), eq(userId), argThat(s -> s != null && !s.isEmpty())))
+        when(operationsApi.deactivateDistributorOperation(distributorId, operationId, userId))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new DeactivateOperationCommand(distributorId, operationId, userId);
@@ -153,18 +152,18 @@ class OperationsHandlersTest {
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).deactivateDistributorOperation(eq(distributorId), eq(operationId), eq(userId), argThat(s -> s != null && !s.isEmpty()));
+        verify(operationsApi).deactivateDistributorOperation(distributorId, operationId, userId);
     }
 
     @Test
-    void canOperate_shouldCallApiWithNullIdempotencyKey() {
-        when(operationsApi.canDistributorOperateInLocation(distributorId, operationId, locationId, null))
+    void canOperate_shouldCallApi() {
+        when(operationsApi.canDistributorOperateInLocation(distributorId, operationId, locationId))
                 .thenReturn(Mono.just(true));
 
         StepVerifier.create(canOperateHandler.doHandle(new CanOperateQuery(distributorId, operationId, locationId)))
                 .expectNext(true)
                 .verifyComplete();
 
-        verify(operationsApi).canDistributorOperateInLocation(distributorId, operationId, locationId, null);
+        verify(operationsApi).canDistributorOperateInLocation(distributorId, operationId, locationId);
     }
 }

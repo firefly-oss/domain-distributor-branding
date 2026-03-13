@@ -23,7 +23,7 @@ public class UpdateOperationHandler extends CommandHandler<UpdateOperationComman
 
     @Override
     protected Mono<UUID> doHandle(UpdateOperationCommand cmd) {
-        return operationsApi.updateDistributorOperation(cmd.getDistributorId(), cmd.getId(), cmd, UUID.randomUUID().toString())
+        return operationsApi.updateDistributorOperation(cmd.getDistributorId(), cmd.getId(), cmd)
                 .mapNotNull(dto -> Objects.requireNonNull(Objects.requireNonNull(dto).getId()));
     }
 }

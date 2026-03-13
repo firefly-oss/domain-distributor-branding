@@ -20,6 +20,6 @@ public class HasActiveSignedTermsHandler extends QueryHandler<HasActiveSignedTer
 
     @Override
     protected Mono<Boolean> doHandle(HasActiveSignedTermsQuery query) {
-        return termsApi.hasActiveSignedTerms(query.distributorId(), null);
+        return termsApi.hasActiveSignedTerms(query.distributorId());
     }
 }

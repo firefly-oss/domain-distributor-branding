@@ -7,7 +7,6 @@ import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
 import org.fireflyframework.cqrs.command.CommandHandler;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
 
 /**
  * Handler that deactivates terms and conditions for a distributor.
@@ -23,6 +22,6 @@ public class DeactivateTermsAndConditionsHandler extends CommandHandler<Deactiva
 
     @Override
     protected Mono<DistributorTermsAndConditionsDTO> doHandle(DeactivateTermsAndConditionsCommand cmd) {
-        return termsApi.deactivateTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId(), cmd.deactivatedBy(), UUID.randomUUID().toString());
+        return termsApi.deactivateTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId(), cmd.deactivatedBy());
     }
 }

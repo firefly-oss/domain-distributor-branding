@@ -7,7 +7,6 @@ import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
 import org.fireflyframework.cqrs.command.CommandHandler;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
 
 /**
  * Handler that deactivates an operation for a distributor.
@@ -23,6 +22,6 @@ public class DeactivateOperationHandler extends CommandHandler<DeactivateOperati
 
     @Override
     protected Mono<DistributorOperationDTO> doHandle(DeactivateOperationCommand cmd) {
-        return operationsApi.deactivateDistributorOperation(cmd.distributorId(), cmd.operationId(), cmd.deactivatedBy(), UUID.randomUUID().toString());
+        return operationsApi.deactivateDistributorOperation(cmd.distributorId(), cmd.operationId(), cmd.deactivatedBy());
     }
 }

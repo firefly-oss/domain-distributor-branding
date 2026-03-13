@@ -17,7 +17,7 @@ public class RemoveTAndCTemplateHandler extends CommandHandler<RemoveTAndCTempla
 
     @Override
     protected Mono<Void> doHandle(RemoveTAndCTemplateCommand cmd) {
-        return termsAndConditionsTemplatesApi.deleteTemplate(cmd.templateId(), null);
+        return termsAndConditionsTemplatesApi.deleteTemplate(cmd.templateId());
     }
 }
 

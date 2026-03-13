@@ -23,7 +23,7 @@ public class CreateOperationHandler extends CommandHandler<CreateOperationComman
 
     @Override
     protected Mono<UUID> doHandle(CreateOperationCommand cmd) {
-        return operationsApi.createDistributorOperation(cmd.getDistributorId(), cmd, UUID.randomUUID().toString())
+        return operationsApi.createDistributorOperation(cmd.getDistributorId(), cmd)
                 .mapNotNull(dto -> Objects.requireNonNull(Objects.requireNonNull(dto)).getId());
     }
 }

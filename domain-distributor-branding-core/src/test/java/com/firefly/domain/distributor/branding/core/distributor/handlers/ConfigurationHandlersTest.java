@@ -51,10 +51,10 @@ class ConfigurationHandlersTest {
     }
 
     @Test
-    void createConfiguration_shouldCallApiWithIdempotencyKey() {
+    void createConfiguration_shouldCallApi() {
         var dto = new DistributorConfigurationDTO(configurationId, null, null, null, null);
 
-        when(configurationsApi.create2(eq(distributorId), any(CreateConfigurationCommand.class), argThat(s -> s != null && !s.isEmpty())))
+        when(configurationsApi.create2(eq(distributorId), any(CreateConfigurationCommand.class)))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new CreateConfigurationCommand();
@@ -64,41 +64,41 @@ class ConfigurationHandlersTest {
                 .expectNext(configurationId)
                 .verifyComplete();
 
-        verify(configurationsApi).create2(eq(distributorId), any(), argThat(s -> s != null && !s.isEmpty()));
+        verify(configurationsApi).create2(eq(distributorId), any());
     }
 
     @Test
-    void getConfiguration_shouldCallApiWithNullIdempotencyKey() {
+    void getConfiguration_shouldCallApi() {
         var dto = new DistributorConfigurationDTO();
-        when(configurationsApi.getById2(distributorId, configurationId, null))
+        when(configurationsApi.getById2(distributorId, configurationId))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(getHandler.doHandle(new GetConfigurationQuery(distributorId, configurationId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(configurationsApi).getById2(distributorId, configurationId, null);
+        verify(configurationsApi).getById2(distributorId, configurationId);
     }
 
     @Test
-    void listConfigurations_shouldCallFilterApiWithNullIdempotencyKey() {
+    void listConfigurations_shouldCallFilterApi() {
         var response = new PaginationResponse();
 
-        when(configurationsApi.filter2(eq(distributorId), any(FilterRequestDistributorConfigurationDTO.class), isNull()))
+        when(configurationsApi.filter2(eq(distributorId), any(FilterRequestDistributorConfigurationDTO.class)))
                 .thenReturn(Mono.just(response));
 
         StepVerifier.create(listHandler.doHandle(new ListConfigurationsQuery(distributorId)))
                 .expectNext(response)
                 .verifyComplete();
 
-        verify(configurationsApi).filter2(eq(distributorId), any(), isNull());
+        verify(configurationsApi).filter2(eq(distributorId), any());
     }
 
     @Test
-    void updateConfiguration_shouldCallApiWithIdempotencyKey() {
+    void updateConfiguration_shouldCallApi() {
         var dto = new DistributorConfigurationDTO(configurationId, null, null, null, null);
 
-        when(configurationsApi.update2(eq(distributorId), eq(configurationId), any(UpdateConfigurationCommand.class), argThat(s -> s != null && !s.isEmpty())))
+        when(configurationsApi.update2(eq(distributorId), eq(configurationId), any(UpdateConfigurationCommand.class)))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new UpdateConfigurationCommand();
@@ -109,17 +109,17 @@ class ConfigurationHandlersTest {
                 .expectNext(configurationId)
                 .verifyComplete();
 
-        verify(configurationsApi).update2(eq(distributorId), eq(configurationId), any(), argThat(s -> s != null && !s.isEmpty()));
+        verify(configurationsApi).update2(eq(distributorId), eq(configurationId), any());
     }
 
     @Test
-    void deleteConfiguration_shouldCallApiWithNullIdempotencyKey() {
-        when(configurationsApi.delete2(distributorId, configurationId, null))
+    void deleteConfiguration_shouldCallApi() {
+        when(configurationsApi.delete2(distributorId, configurationId))
                 .thenReturn(Mono.empty());
 
         StepVerifier.create(deleteHandler.doHandle(new DeleteConfigurationCommand(distributorId, configurationId)))
                 .verifyComplete();
 
-        verify(configurationsApi).delete2(distributorId, configurationId, null);
+        verify(configurationsApi).delete2(distributorId, configurationId);
     }
 }

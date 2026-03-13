@@ -21,6 +21,6 @@ public class GetAgencyHandler extends QueryHandler<GetAgencyQuery, DistributorAg
 
     @Override
     protected Mono<DistributorAgencyDTO> doHandle(GetAgencyQuery query) {
-        return agenciesApi.getById6(query.distributorId(), query.agencyId(), null);
+        return agenciesApi.getById6(query.distributorId(), query.agencyId());
     }
 }

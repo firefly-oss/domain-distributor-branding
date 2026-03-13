@@ -17,7 +17,7 @@ public class RemoveDistributorInfoHandler extends CommandHandler<RemoveDistribut
 
     @Override
     protected Mono<Void> doHandle(RemoveDistributorInfoCommand cmd) {
-        return distributorApi.deleteDistributor(cmd.distributorId(), null);
+        return distributorApi.deleteDistributor(cmd.distributorId());
     }
 }
 

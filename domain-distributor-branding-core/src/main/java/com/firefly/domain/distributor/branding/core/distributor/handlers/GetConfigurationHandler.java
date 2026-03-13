@@ -21,6 +21,6 @@ public class GetConfigurationHandler extends QueryHandler<GetConfigurationQuery,
 
     @Override
     protected Mono<DistributorConfigurationDTO> doHandle(GetConfigurationQuery query) {
-        return configurationsApi.getById2(query.distributorId(), query.configurationId(), null);
+        return configurationsApi.getById2(query.distributorId(), query.configurationId());
     }
 }

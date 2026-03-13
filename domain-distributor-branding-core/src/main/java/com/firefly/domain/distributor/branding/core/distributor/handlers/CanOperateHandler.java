@@ -20,6 +20,6 @@ public class CanOperateHandler extends QueryHandler<CanOperateQuery, Boolean> {
 
     @Override
     protected Mono<Boolean> doHandle(CanOperateQuery query) {
-        return operationsApi.canDistributorOperateInLocation(query.distributorId(), query.operationId(), query.locationId(), null);
+        return operationsApi.canDistributorOperateInLocation(query.distributorId(), query.operationId(), query.locationId());
     }
 }

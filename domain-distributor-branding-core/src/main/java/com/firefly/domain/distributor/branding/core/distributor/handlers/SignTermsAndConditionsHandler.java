@@ -7,7 +7,6 @@ import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
 import org.fireflyframework.cqrs.command.CommandHandler;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
 
 /**
  * Handler that signs terms and conditions for a distributor.
@@ -23,6 +22,6 @@ public class SignTermsAndConditionsHandler extends CommandHandler<SignTermsAndCo
 
     @Override
     protected Mono<DistributorTermsAndConditionsDTO> doHandle(SignTermsAndConditionsCommand cmd) {
-        return termsApi.signTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId(), cmd.signedBy(), UUID.randomUUID().toString());
+        return termsApi.signTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId(), cmd.signedBy());
     }
 }

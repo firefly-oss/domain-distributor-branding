@@ -21,6 +21,6 @@ public class GetOperationHandler extends QueryHandler<GetOperationQuery, Distrib
 
     @Override
     protected Mono<DistributorOperationDTO> doHandle(GetOperationQuery query) {
-        return operationsApi.getDistributorOperationById(query.distributorId(), query.operationId(), null);
+        return operationsApi.getDistributorOperationById(query.distributorId(), query.operationId());
     }
 }

@@ -20,6 +20,6 @@ public class DeleteTerritoryHandler extends CommandHandler<DeleteTerritoryComman
 
     @Override
     protected Mono<Void> doHandle(DeleteTerritoryCommand cmd) {
-        return territoriesApi.delete3(cmd.distributorId(), cmd.territoryId(), null);
+        return territoriesApi.delete3(cmd.distributorId(), cmd.territoryId());
     }
 }

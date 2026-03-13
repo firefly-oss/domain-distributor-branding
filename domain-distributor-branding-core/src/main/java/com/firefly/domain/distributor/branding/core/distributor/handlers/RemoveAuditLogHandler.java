@@ -17,7 +17,7 @@ public class RemoveAuditLogHandler extends CommandHandler<RemoveAuditLogCommand,
 
     @Override
     protected Mono<Void> doHandle(RemoveAuditLogCommand cmd) {
-        return distributorAuditLogApi.deleteDistributorAuditLog(cmd.distributorId(), cmd.auditLogId(), null);
+        return distributorAuditLogApi.deleteDistributorAuditLog(cmd.distributorId(), cmd.auditLogId());
     }
 }
 

@@ -23,7 +23,7 @@ public class CreateConfigurationHandler extends CommandHandler<CreateConfigurati
 
     @Override
     protected Mono<UUID> doHandle(CreateConfigurationCommand cmd) {
-        return configurationsApi.create2(cmd.getDistributorId(), cmd, UUID.randomUUID().toString())
+        return configurationsApi.create2(cmd.getDistributorId(), cmd)
                 .mapNotNull(dto -> Objects.requireNonNull(Objects.requireNonNull(dto)).getId());
     }
 }

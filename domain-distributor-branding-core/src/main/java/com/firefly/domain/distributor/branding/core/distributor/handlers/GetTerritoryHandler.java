@@ -21,6 +21,6 @@ public class GetTerritoryHandler extends QueryHandler<GetTerritoryQuery, Distrib
 
     @Override
     protected Mono<DistributorAuthorizedTerritoryDTO> doHandle(GetTerritoryQuery query) {
-        return territoriesApi.getById3(query.distributorId(), query.territoryId(), null);
+        return territoriesApi.getById3(query.distributorId(), query.territoryId());
     }
 }

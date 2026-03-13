@@ -44,10 +44,10 @@ class AgentAgencyHandlersTest {
     }
 
     @Test
-    void assignAgentAgency_shouldCallApiWithIdempotencyKey() {
+    void assignAgentAgency_shouldCallApi() {
         var dto = new DistributorAgentAgencyDTO(agentAgencyId, null, null, null, null);
 
-        when(agentAgencyApi.create5(eq(distributorId), any(AssignAgentAgencyCommand.class), argThat(s -> s != null && !s.isEmpty())))
+        when(agentAgencyApi.create5(eq(distributorId), any(AssignAgentAgencyCommand.class)))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new AssignAgentAgencyCommand();
@@ -57,28 +57,28 @@ class AgentAgencyHandlersTest {
                 .expectNext(agentAgencyId)
                 .verifyComplete();
 
-        verify(agentAgencyApi).create5(eq(distributorId), any(), argThat(s -> s != null && !s.isEmpty()));
+        verify(agentAgencyApi).create5(eq(distributorId), any());
     }
 
     @Test
-    void listAgentAgencies_shouldCallFilterApiWithNullIdempotencyKey() {
-        when(agentAgencyApi.filter5(eq(distributorId), any(FilterRequestDistributorAgentAgencyDTO.class), isNull()))
+    void listAgentAgencies_shouldCallFilterApi() {
+        when(agentAgencyApi.filter5(eq(distributorId), any(FilterRequestDistributorAgentAgencyDTO.class)))
                 .thenReturn(Mono.empty());
 
         StepVerifier.create(listHandler.doHandle(new ListAgentAgenciesQuery(distributorId)))
                 .verifyComplete();
 
-        verify(agentAgencyApi).filter5(eq(distributorId), any(), isNull());
+        verify(agentAgencyApi).filter5(eq(distributorId), any());
     }
 
     @Test
-    void removeAgentAgency_shouldCallApiWithNullIdempotencyKey() {
-        when(agentAgencyApi.delete5(distributorId, agentAgencyId, null))
+    void removeAgentAgency_shouldCallApi() {
+        when(agentAgencyApi.delete5(distributorId, agentAgencyId))
                 .thenReturn(Mono.empty());
 
         StepVerifier.create(removeHandler.doHandle(new RemoveAgentAgencyCommand(distributorId, agentAgencyId)))
                 .verifyComplete();
 
-        verify(agentAgencyApi).delete5(distributorId, agentAgencyId, null);
+        verify(agentAgencyApi).delete5(distributorId, agentAgencyId);
     }
 }

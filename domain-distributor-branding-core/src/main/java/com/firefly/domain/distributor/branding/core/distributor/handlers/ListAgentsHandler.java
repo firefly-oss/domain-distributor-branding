@@ -22,6 +22,6 @@ public class ListAgentsHandler extends QueryHandler<ListAgentsQuery, PaginationR
 
     @Override
     protected Mono<PaginationResponse> doHandle(ListAgentsQuery query) {
-        return agentsApi.filter4(query.distributorId(), new FilterRequestDistributorAgentDTO(), null);
+        return agentsApi.filter4(query.distributorId(), new FilterRequestDistributorAgentDTO());
     }
 }

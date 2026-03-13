@@ -7,7 +7,6 @@ import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
 import org.fireflyframework.cqrs.command.CommandHandler;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
 
 /**
  * Handler that activates an operation for a distributor.
@@ -23,6 +22,6 @@ public class ActivateOperationHandler extends CommandHandler<ActivateOperationCo
 
     @Override
     protected Mono<DistributorOperationDTO> doHandle(ActivateOperationCommand cmd) {
-        return operationsApi.activateDistributorOperation(cmd.distributorId(), cmd.operationId(), cmd.activatedBy(), UUID.randomUUID().toString());
+        return operationsApi.activateDistributorOperation(cmd.distributorId(), cmd.operationId(), cmd.activatedBy());
     }
 }

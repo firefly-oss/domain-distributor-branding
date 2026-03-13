@@ -20,7 +20,7 @@ public class RegisterTAndCTemplateHandler extends CommandHandler<RegisterTandCTe
 
     @Override
     protected Mono<UUID> doHandle(RegisterTandCTemplateCommand cmd) {
-        return termsAndConditionsTemplatesApi.createTemplate(cmd, UUID.randomUUID().toString())
+        return termsAndConditionsTemplatesApi.createTemplate(cmd)
                 .mapNotNull(templateDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(templateDTO)).getId());
     }

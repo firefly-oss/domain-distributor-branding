@@ -17,7 +17,7 @@ public class RemoveTermsAndConditionsHandler extends CommandHandler<RemoveTermsA
 
     @Override
     protected Mono<Void> doHandle(RemoveTermsAndConditionsCommand cmd) {
-        return distributorTermsAndConditionsApi.deleteDistributorTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId(), null);
+        return distributorTermsAndConditionsApi.deleteDistributorTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId());
     }
 }
 

@@ -22,6 +22,6 @@ public class ListConfigurationsHandler extends QueryHandler<ListConfigurationsQu
 
     @Override
     protected Mono<PaginationResponse> doHandle(ListConfigurationsQuery query) {
-        return configurationsApi.filter2(query.distributorId(), new FilterRequestDistributorConfigurationDTO(), null);
+        return configurationsApi.filter2(query.distributorId(), new FilterRequestDistributorConfigurationDTO());
     }
 }

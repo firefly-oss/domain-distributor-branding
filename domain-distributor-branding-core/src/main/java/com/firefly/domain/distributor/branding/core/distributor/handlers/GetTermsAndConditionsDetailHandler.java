@@ -21,6 +21,6 @@ public class GetTermsAndConditionsDetailHandler extends QueryHandler<GetTermsAnd
 
     @Override
     protected Mono<DistributorTermsAndConditionsDTO> doHandle(GetTermsAndConditionsDetailQuery query) {
-        return termsApi.getDistributorTermsAndConditionsById(query.distributorId(), query.termsAndConditionsId(), null);
+        return termsApi.getDistributorTermsAndConditionsById(query.distributorId(), query.termsAndConditionsId());
     }
 }

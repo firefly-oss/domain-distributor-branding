@@ -23,7 +23,7 @@ public class CreateAgentHandler extends CommandHandler<CreateAgentCommand, UUID>
 
     @Override
     protected Mono<UUID> doHandle(CreateAgentCommand cmd) {
-        return agentsApi.create4(cmd.getDistributorId(), cmd, UUID.randomUUID().toString())
+        return agentsApi.create4(cmd.getDistributorId(), cmd)
                 .mapNotNull(dto -> Objects.requireNonNull(Objects.requireNonNull(dto)).getId());
     }
 }

@@ -20,7 +20,7 @@ public class RegisterTermsAndConditionsHandler extends CommandHandler<RegisterTe
 
     @Override
     protected Mono<UUID> doHandle(RegisterTermsAndConditionsCommand cmd) {
-        return distributorTermsAndConditionsApi.createDistributorTermsAndConditions(cmd.getDistributorId(), cmd, UUID.randomUUID().toString())
+        return distributorTermsAndConditionsApi.createDistributorTermsAndConditions(cmd.getDistributorId(), cmd)
                 .mapNotNull(distributorTermsAndConditionsDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(distributorTermsAndConditionsDTO)).getId());
     }
