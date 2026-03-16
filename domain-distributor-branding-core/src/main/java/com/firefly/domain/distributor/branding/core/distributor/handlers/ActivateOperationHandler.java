@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.branding.core.distributor.commands.Activat
 import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
 import org.fireflyframework.cqrs.command.CommandHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 
 /**
@@ -22,6 +23,6 @@ public class ActivateOperationHandler extends CommandHandler<ActivateOperationCo
 
     @Override
     protected Mono<DistributorOperationDTO> doHandle(ActivateOperationCommand cmd) {
-        return operationsApi.activateDistributorOperation(cmd.distributorId(), cmd.operationId(), cmd.activatedBy());
+        return operationsApi.activateDistributorOperation(cmd.distributorId(), cmd.operationId(), cmd.activatedBy(), UUID.randomUUID().toString());
     }
 }

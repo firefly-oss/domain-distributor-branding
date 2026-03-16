@@ -54,7 +54,7 @@ class AgencyHandlersTest {
     void createAgency_shouldCallApi() {
         var dto = new DistributorAgencyDTO(agencyId, null, null, null, null);
 
-        when(agenciesApi.create6(eq(distributorId), any(CreateAgencyCommand.class)))
+        when(agenciesApi.create6(eq(distributorId), any(CreateAgencyCommand.class), isNull()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new CreateAgencyCommand();
@@ -64,42 +64,42 @@ class AgencyHandlersTest {
                 .expectNext(agencyId)
                 .verifyComplete();
 
-        verify(agenciesApi).create6(eq(distributorId), any());
+        verify(agenciesApi).create6(eq(distributorId), any(), isNull());
     }
 
     @Test
     void getAgency_shouldCallApi() {
         var dto = new DistributorAgencyDTO(agencyId, null, null, null, null);
 
-        when(agenciesApi.getById6(distributorId, agencyId))
+        when(agenciesApi.getById6(distributorId, agencyId, null))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(getHandler.doHandle(new GetAgencyQuery(distributorId, agencyId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(agenciesApi).getById6(distributorId, agencyId);
+        verify(agenciesApi).getById6(distributorId, agencyId, null);
     }
 
     @Test
     void listAgencies_shouldCallFilterApi() {
         var response = new PaginationResponse();
 
-        when(agenciesApi.filter6(eq(distributorId), any(FilterRequestDistributorAgencyDTO.class)))
+        when(agenciesApi.filter6(eq(distributorId), any(FilterRequestDistributorAgencyDTO.class), isNull()))
                 .thenReturn(Mono.just(response));
 
         StepVerifier.create(listHandler.doHandle(new ListAgenciesQuery(distributorId)))
                 .expectNext(response)
                 .verifyComplete();
 
-        verify(agenciesApi).filter6(eq(distributorId), any());
+        verify(agenciesApi).filter6(eq(distributorId), any(), isNull());
     }
 
     @Test
     void updateAgency_shouldCallApi() {
         var dto = new DistributorAgencyDTO(agencyId, null, null, null, null);
 
-        when(agenciesApi.update6(eq(distributorId), eq(agencyId), any(UpdateAgencyCommand.class)))
+        when(agenciesApi.update6(eq(distributorId), eq(agencyId), any(UpdateAgencyCommand.class), isNull()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new UpdateAgencyCommand();
@@ -110,17 +110,17 @@ class AgencyHandlersTest {
                 .expectNext(agencyId)
                 .verifyComplete();
 
-        verify(agenciesApi).update6(eq(distributorId), eq(agencyId), any());
+        verify(agenciesApi).update6(eq(distributorId), eq(agencyId), any(), isNull());
     }
 
     @Test
     void deleteAgency_shouldCallApi() {
-        when(agenciesApi.delete6(distributorId, agencyId))
+        when(agenciesApi.delete6(distributorId, agencyId, null))
                 .thenReturn(Mono.empty());
 
         StepVerifier.create(deleteHandler.doHandle(new DeleteAgencyCommand(distributorId, agencyId)))
                 .verifyComplete();
 
-        verify(agenciesApi).delete6(distributorId, agencyId);
+        verify(agenciesApi).delete6(distributorId, agencyId, null);
     }
 }

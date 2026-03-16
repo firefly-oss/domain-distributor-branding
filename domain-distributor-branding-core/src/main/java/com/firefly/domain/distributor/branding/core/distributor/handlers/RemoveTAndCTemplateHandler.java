@@ -5,6 +5,7 @@ import org.fireflyframework.cqrs.command.CommandHandler;
 import com.firefly.core.distributor.sdk.api.TermsAndConditionsTemplatesApi;
 import com.firefly.domain.distributor.branding.core.distributor.commands.RemoveTAndCTemplateCommand;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @CommandHandlerComponent
 public class RemoveTAndCTemplateHandler extends CommandHandler<RemoveTAndCTemplateCommand, Void> {
@@ -17,7 +18,7 @@ public class RemoveTAndCTemplateHandler extends CommandHandler<RemoveTAndCTempla
 
     @Override
     protected Mono<Void> doHandle(RemoveTAndCTemplateCommand cmd) {
-        return termsAndConditionsTemplatesApi.deleteTemplate(cmd.templateId());
+        return termsAndConditionsTemplatesApi.deleteTemplate(cmd.templateId(), UUID.randomUUID().toString());
     }
 }
 

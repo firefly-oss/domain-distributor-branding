@@ -36,7 +36,7 @@ public class ReviseBrandingHandler extends CommandHandler<ReviseBrandingCommand,
 
     @Override
     protected Mono<UUID> doHandle(ReviseBrandingCommand cmd) {
-        return distributorBrandingApi.updateDistributorBranding(cmd.getDistributorId(), cmd.getId(), cmd)
+        return distributorBrandingApi.updateDistributorBranding(cmd.getDistributorId(), cmd.getId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(distributorBrandingDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(distributorBrandingDTO).getId()));
     }

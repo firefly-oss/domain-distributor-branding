@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.ListOper
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that lists all operations for a distributor.
@@ -21,6 +22,6 @@ public class ListOperationsHandler extends QueryHandler<ListOperationsQuery, Dis
 
     @Override
     protected Mono<DistributorOperationDTO> doHandle(ListOperationsQuery query) {
-        return operationsApi.getOperationsByDistributorId(query.distributorId());
+        return operationsApi.getOperationsByDistributorId(query.distributorId(), UUID.randomUUID().toString());
     }
 }

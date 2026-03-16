@@ -7,6 +7,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.ListAgen
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that lists all agencies for a distributor.
@@ -22,6 +23,6 @@ public class ListAgenciesHandler extends QueryHandler<ListAgenciesQuery, Paginat
 
     @Override
     protected Mono<PaginationResponse> doHandle(ListAgenciesQuery query) {
-        return agenciesApi.filter6(query.distributorId(), new FilterRequestDistributorAgencyDTO());
+        return agenciesApi.filter6(query.distributorId(), new FilterRequestDistributorAgencyDTO(), UUID.randomUUID().toString());
     }
 }

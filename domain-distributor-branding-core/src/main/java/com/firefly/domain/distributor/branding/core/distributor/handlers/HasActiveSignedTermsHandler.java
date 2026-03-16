@@ -5,6 +5,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.HasActiv
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that checks whether a distributor has active signed terms and conditions.
@@ -20,6 +21,6 @@ public class HasActiveSignedTermsHandler extends QueryHandler<HasActiveSignedTer
 
     @Override
     protected Mono<Boolean> doHandle(HasActiveSignedTermsQuery query) {
-        return termsApi.hasActiveSignedTerms(query.distributorId());
+        return termsApi.hasActiveSignedTerms(query.distributorId(), UUID.randomUUID().toString());
     }
 }

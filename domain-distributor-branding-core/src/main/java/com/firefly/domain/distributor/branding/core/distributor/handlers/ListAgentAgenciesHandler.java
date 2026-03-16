@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.ListAgen
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that lists all agent-agency assignments for a distributor.
@@ -21,6 +22,6 @@ public class ListAgentAgenciesHandler extends QueryHandler<ListAgentAgenciesQuer
 
     @Override
     protected Mono<Void> doHandle(ListAgentAgenciesQuery query) {
-        return agentAgencyApi.filter5(query.distributorId(), new FilterRequestDistributorAgentAgencyDTO());
+        return agentAgencyApi.filter5(query.distributorId(), new FilterRequestDistributorAgentAgencyDTO(), UUID.randomUUID().toString());
     }
 }

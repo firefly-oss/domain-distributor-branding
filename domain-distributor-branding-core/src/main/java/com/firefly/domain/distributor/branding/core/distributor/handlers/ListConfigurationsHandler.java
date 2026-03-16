@@ -7,6 +7,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.ListConf
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that lists all configurations for a distributor.
@@ -22,6 +23,6 @@ public class ListConfigurationsHandler extends QueryHandler<ListConfigurationsQu
 
     @Override
     protected Mono<PaginationResponse> doHandle(ListConfigurationsQuery query) {
-        return configurationsApi.filter2(query.distributorId(), new FilterRequestDistributorConfigurationDTO());
+        return configurationsApi.filter2(query.distributorId(), new FilterRequestDistributorConfigurationDTO(), UUID.randomUUID().toString());
     }
 }

@@ -7,6 +7,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.ListTerr
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that lists all authorized territories for a distributor.
@@ -22,6 +23,6 @@ public class ListTerritoriesHandler extends QueryHandler<ListTerritoriesQuery, P
 
     @Override
     protected Mono<PaginationResponse> doHandle(ListTerritoriesQuery query) {
-        return territoriesApi.filter3(query.distributorId(), new FilterRequestDistributorAuthorizedTerritoryDTO());
+        return territoriesApi.filter3(query.distributorId(), new FilterRequestDistributorAuthorizedTerritoryDTO(), UUID.randomUUID().toString());
     }
 }

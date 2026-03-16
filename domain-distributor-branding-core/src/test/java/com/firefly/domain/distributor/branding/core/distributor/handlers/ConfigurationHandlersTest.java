@@ -54,7 +54,7 @@ class ConfigurationHandlersTest {
     void createConfiguration_shouldCallApi() {
         var dto = new DistributorConfigurationDTO(configurationId, null, null, null, null);
 
-        when(configurationsApi.create2(eq(distributorId), any(CreateConfigurationCommand.class)))
+        when(configurationsApi.create2(eq(distributorId), any(CreateConfigurationCommand.class), isNull()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new CreateConfigurationCommand();
@@ -64,41 +64,41 @@ class ConfigurationHandlersTest {
                 .expectNext(configurationId)
                 .verifyComplete();
 
-        verify(configurationsApi).create2(eq(distributorId), any());
+        verify(configurationsApi).create2(eq(distributorId), any(), isNull());
     }
 
     @Test
     void getConfiguration_shouldCallApi() {
         var dto = new DistributorConfigurationDTO();
-        when(configurationsApi.getById2(distributorId, configurationId))
+        when(configurationsApi.getById2(distributorId, configurationId, null))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(getHandler.doHandle(new GetConfigurationQuery(distributorId, configurationId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(configurationsApi).getById2(distributorId, configurationId);
+        verify(configurationsApi).getById2(distributorId, configurationId, null);
     }
 
     @Test
     void listConfigurations_shouldCallFilterApi() {
         var response = new PaginationResponse();
 
-        when(configurationsApi.filter2(eq(distributorId), any(FilterRequestDistributorConfigurationDTO.class)))
+        when(configurationsApi.filter2(eq(distributorId), any(FilterRequestDistributorConfigurationDTO.class), isNull()))
                 .thenReturn(Mono.just(response));
 
         StepVerifier.create(listHandler.doHandle(new ListConfigurationsQuery(distributorId)))
                 .expectNext(response)
                 .verifyComplete();
 
-        verify(configurationsApi).filter2(eq(distributorId), any());
+        verify(configurationsApi).filter2(eq(distributorId), any(), isNull());
     }
 
     @Test
     void updateConfiguration_shouldCallApi() {
         var dto = new DistributorConfigurationDTO(configurationId, null, null, null, null);
 
-        when(configurationsApi.update2(eq(distributorId), eq(configurationId), any(UpdateConfigurationCommand.class)))
+        when(configurationsApi.update2(eq(distributorId), eq(configurationId), any(UpdateConfigurationCommand.class), isNull()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new UpdateConfigurationCommand();
@@ -109,17 +109,17 @@ class ConfigurationHandlersTest {
                 .expectNext(configurationId)
                 .verifyComplete();
 
-        verify(configurationsApi).update2(eq(distributorId), eq(configurationId), any());
+        verify(configurationsApi).update2(eq(distributorId), eq(configurationId), any(), isNull());
     }
 
     @Test
     void deleteConfiguration_shouldCallApi() {
-        when(configurationsApi.delete2(distributorId, configurationId))
+        when(configurationsApi.delete2(distributorId, configurationId, null))
                 .thenReturn(Mono.empty());
 
         StepVerifier.create(deleteHandler.doHandle(new DeleteConfigurationCommand(distributorId, configurationId)))
                 .verifyComplete();
 
-        verify(configurationsApi).delete2(distributorId, configurationId);
+        verify(configurationsApi).delete2(distributorId, configurationId, null);
     }
 }

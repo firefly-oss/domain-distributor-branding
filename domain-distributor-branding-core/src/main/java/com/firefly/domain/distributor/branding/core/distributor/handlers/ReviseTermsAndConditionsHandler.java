@@ -36,7 +36,7 @@ public class ReviseTermsAndConditionsHandler extends CommandHandler<ReviseTermsA
 
     @Override
     protected Mono<UUID> doHandle(ReviseTermsAndConditionsCommand cmd) {
-        return distributorTermsAndConditionsApi.updateDistributorTermsAndConditions(cmd.getDistributorId(), cmd.getId(), cmd)
+        return distributorTermsAndConditionsApi.updateDistributorTermsAndConditions(cmd.getDistributorId(), cmd.getId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(distributorTermsAndConditionsDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(distributorTermsAndConditionsDTO).getId()));
     }

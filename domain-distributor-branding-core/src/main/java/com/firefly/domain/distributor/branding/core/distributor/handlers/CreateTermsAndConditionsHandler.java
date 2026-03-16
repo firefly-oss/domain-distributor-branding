@@ -23,7 +23,7 @@ public class CreateTermsAndConditionsHandler extends CommandHandler<CreateTermsA
 
     @Override
     protected Mono<UUID> doHandle(CreateTermsAndConditionsCommand cmd) {
-        return termsApi.createDistributorTermsAndConditions(cmd.getDistributorId(), cmd)
+        return termsApi.createDistributorTermsAndConditions(cmd.getDistributorId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(dto -> Objects.requireNonNull(Objects.requireNonNull(dto)).getId());
     }
 }

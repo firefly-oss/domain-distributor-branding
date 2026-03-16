@@ -23,7 +23,7 @@ public class CreateTerritoryHandler extends CommandHandler<CreateTerritoryComman
 
     @Override
     protected Mono<UUID> doHandle(CreateTerritoryCommand cmd) {
-        return territoriesApi.create3(cmd.getDistributorId(), cmd)
+        return territoriesApi.create3(cmd.getDistributorId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(dto -> Objects.requireNonNull(Objects.requireNonNull(dto)).getId());
     }
 }

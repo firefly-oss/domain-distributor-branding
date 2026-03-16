@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.branding.core.distributor.commands.Activat
 import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
 import org.fireflyframework.cqrs.command.CommandHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 
 /**
@@ -22,6 +23,6 @@ public class ActivateTermsAndConditionsHandler extends CommandHandler<ActivateTe
 
     @Override
     protected Mono<DistributorTermsAndConditionsDTO> doHandle(ActivateTermsAndConditionsCommand cmd) {
-        return termsApi.activateTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId(), cmd.activatedBy());
+        return termsApi.activateTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId(), cmd.activatedBy(), UUID.randomUUID().toString());
     }
 }

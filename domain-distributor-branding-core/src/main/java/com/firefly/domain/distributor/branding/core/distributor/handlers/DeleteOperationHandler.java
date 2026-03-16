@@ -5,6 +5,7 @@ import com.firefly.domain.distributor.branding.core.distributor.commands.DeleteO
 import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
 import org.fireflyframework.cqrs.command.CommandHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that deletes an operation from a distributor.
@@ -20,6 +21,6 @@ public class DeleteOperationHandler extends CommandHandler<DeleteOperationComman
 
     @Override
     protected Mono<Void> doHandle(DeleteOperationCommand cmd) {
-        return operationsApi.deleteDistributorOperation(cmd.distributorId(), cmd.operationId());
+        return operationsApi.deleteDistributorOperation(cmd.distributorId(), cmd.operationId(), UUID.randomUUID().toString());
     }
 }

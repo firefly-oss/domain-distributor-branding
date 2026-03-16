@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.GetConfi
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that retrieves a single configuration by its identifier.
@@ -21,6 +22,6 @@ public class GetConfigurationHandler extends QueryHandler<GetConfigurationQuery,
 
     @Override
     protected Mono<DistributorConfigurationDTO> doHandle(GetConfigurationQuery query) {
-        return configurationsApi.getById2(query.distributorId(), query.configurationId());
+        return configurationsApi.getById2(query.distributorId(), query.configurationId(), UUID.randomUUID().toString());
     }
 }

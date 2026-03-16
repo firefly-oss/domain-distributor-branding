@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.GetTerri
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that retrieves a single authorized territory by its identifier.
@@ -21,6 +22,6 @@ public class GetTerritoryHandler extends QueryHandler<GetTerritoryQuery, Distrib
 
     @Override
     protected Mono<DistributorAuthorizedTerritoryDTO> doHandle(GetTerritoryQuery query) {
-        return territoriesApi.getById3(query.distributorId(), query.territoryId());
+        return territoriesApi.getById3(query.distributorId(), query.territoryId(), UUID.randomUUID().toString());
     }
 }

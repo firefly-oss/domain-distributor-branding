@@ -36,7 +36,7 @@ public class SetDefaultBrandingHandler extends CommandHandler<SetDefaultBranding
 
     @Override
     protected Mono<UUID> doHandle(SetDefaultBrandingCommand cmd) {
-        return distributorBrandingApi.updateDistributorBranding(cmd.getDistributorId(), cmd.getId(), cmd.withIsDefault(true))
+        return distributorBrandingApi.updateDistributorBranding(cmd.getDistributorId(), cmd.getId(), cmd.withIsDefault(true), UUID.randomUUID().toString())
                 .mapNotNull(distributorBrandingDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(distributorBrandingDTO).getId()));
     }

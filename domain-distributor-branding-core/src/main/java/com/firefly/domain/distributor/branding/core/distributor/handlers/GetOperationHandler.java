@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.GetOpera
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that retrieves a single operation by its identifier.
@@ -21,6 +22,6 @@ public class GetOperationHandler extends QueryHandler<GetOperationQuery, Distrib
 
     @Override
     protected Mono<DistributorOperationDTO> doHandle(GetOperationQuery query) {
-        return operationsApi.getDistributorOperationById(query.distributorId(), query.operationId());
+        return operationsApi.getDistributorOperationById(query.distributorId(), query.operationId(), UUID.randomUUID().toString());
     }
 }

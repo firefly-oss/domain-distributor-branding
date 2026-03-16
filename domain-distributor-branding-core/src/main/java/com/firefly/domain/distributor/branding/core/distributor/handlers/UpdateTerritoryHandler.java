@@ -23,7 +23,7 @@ public class UpdateTerritoryHandler extends CommandHandler<UpdateTerritoryComman
 
     @Override
     protected Mono<UUID> doHandle(UpdateTerritoryCommand cmd) {
-        return territoriesApi.update3(cmd.getDistributorId(), cmd.getId(), cmd)
+        return territoriesApi.update3(cmd.getDistributorId(), cmd.getId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(dto -> Objects.requireNonNull(Objects.requireNonNull(dto).getId()));
     }
 }

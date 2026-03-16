@@ -5,6 +5,7 @@ import com.firefly.domain.distributor.branding.core.distributor.commands.DeleteT
 import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
 import org.fireflyframework.cqrs.command.CommandHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that deletes an authorized territory from a distributor.
@@ -20,6 +21,6 @@ public class DeleteTerritoryHandler extends CommandHandler<DeleteTerritoryComman
 
     @Override
     protected Mono<Void> doHandle(DeleteTerritoryCommand cmd) {
-        return territoriesApi.delete3(cmd.distributorId(), cmd.territoryId());
+        return territoriesApi.delete3(cmd.distributorId(), cmd.territoryId(), UUID.randomUUID().toString());
     }
 }

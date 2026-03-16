@@ -23,7 +23,7 @@ public class UpdateAgencyHandler extends CommandHandler<UpdateAgencyCommand, UUI
 
     @Override
     protected Mono<UUID> doHandle(UpdateAgencyCommand cmd) {
-        return agenciesApi.update6(cmd.getDistributorId(), cmd.getId(), cmd)
+        return agenciesApi.update6(cmd.getDistributorId(), cmd.getId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(dto -> Objects.requireNonNull(Objects.requireNonNull(dto).getId()));
     }
 }

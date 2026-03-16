@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.ListTerm
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that lists all terms and conditions for a distributor.
@@ -21,6 +22,6 @@ public class ListTermsAndConditionsHandler extends QueryHandler<ListTermsAndCond
 
     @Override
     protected Mono<DistributorTermsAndConditionsDTO> doHandle(ListTermsAndConditionsQuery query) {
-        return termsApi.getTermsAndConditionsByDistributorId(query.distributorId());
+        return termsApi.getTermsAndConditionsByDistributorId(query.distributorId(), UUID.randomUUID().toString());
     }
 }

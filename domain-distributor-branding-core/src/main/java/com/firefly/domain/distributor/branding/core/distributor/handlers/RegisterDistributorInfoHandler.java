@@ -20,7 +20,7 @@ public class RegisterDistributorInfoHandler extends CommandHandler<RegisterDistr
 
     @Override
     protected Mono<UUID> doHandle(RegisterDistributorInfoCommand cmd) {
-        return distributorApi.createDistributor(cmd)
+        return distributorApi.createDistributor(cmd, UUID.randomUUID().toString())
                 .mapNotNull(applicationCollateralDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(applicationCollateralDTO)).getId());
     }

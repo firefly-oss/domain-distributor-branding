@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.GetLates
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that retrieves the latest terms and conditions for a distributor.
@@ -21,6 +22,6 @@ public class GetLatestTermsAndConditionsHandler extends QueryHandler<GetLatestTe
 
     @Override
     protected Mono<DistributorTermsAndConditionsDTO> doHandle(GetLatestTermsAndConditionsQuery query) {
-        return termsApi.getLatestTermsAndConditions(query.distributorId());
+        return termsApi.getLatestTermsAndConditions(query.distributorId(), UUID.randomUUID().toString());
     }
 }

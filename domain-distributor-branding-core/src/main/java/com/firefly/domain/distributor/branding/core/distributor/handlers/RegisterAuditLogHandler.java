@@ -20,7 +20,7 @@ public class RegisterAuditLogHandler extends CommandHandler<RegisterDistributorA
 
     @Override
     protected Mono<UUID> doHandle(RegisterDistributorAuditLogCommand cmd) {
-        return distributorAuditLogApi.createDistributorAuditLog(cmd.getDistributorId(), cmd)
+        return distributorAuditLogApi.createDistributorAuditLog(cmd.getDistributorId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(distributorAuditLogDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(distributorAuditLogDTO)).getId());
     }

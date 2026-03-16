@@ -5,6 +5,7 @@ import com.firefly.domain.distributor.branding.core.distributor.commands.DeleteA
 import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
 import org.fireflyframework.cqrs.command.CommandHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that deletes an agent from a distributor.
@@ -20,6 +21,6 @@ public class DeleteAgentHandler extends CommandHandler<DeleteAgentCommand, Void>
 
     @Override
     protected Mono<Void> doHandle(DeleteAgentCommand cmd) {
-        return agentsApi.delete4(cmd.distributorId(), cmd.agentId());
+        return agentsApi.delete4(cmd.distributorId(), cmd.agentId(), UUID.randomUUID().toString());
     }
 }

@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.GetAgenc
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that retrieves a single agency by its identifier.
@@ -21,6 +22,6 @@ public class GetAgencyHandler extends QueryHandler<GetAgencyQuery, DistributorAg
 
     @Override
     protected Mono<DistributorAgencyDTO> doHandle(GetAgencyQuery query) {
-        return agenciesApi.getById6(query.distributorId(), query.agencyId());
+        return agenciesApi.getById6(query.distributorId(), query.agencyId(), UUID.randomUUID().toString());
     }
 }

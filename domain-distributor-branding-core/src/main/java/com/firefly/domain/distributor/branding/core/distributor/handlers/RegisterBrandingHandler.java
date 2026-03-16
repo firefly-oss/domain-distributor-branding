@@ -20,7 +20,7 @@ public class RegisterBrandingHandler extends CommandHandler<RegisterDistributorB
 
     @Override
     protected Mono<UUID> doHandle(RegisterDistributorBrandingCommand cmd) {
-        return distributorBrandingApi.createDistributorBranding(cmd.getDistributorId(), cmd)
+        return distributorBrandingApi.createDistributorBranding(cmd.getDistributorId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(distributorBrandingDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(distributorBrandingDTO)).getId());
     }

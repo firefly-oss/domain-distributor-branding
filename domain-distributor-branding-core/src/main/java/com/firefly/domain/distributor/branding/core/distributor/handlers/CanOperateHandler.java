@@ -5,6 +5,7 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.CanOpera
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that checks whether a distributor can operate in a given location.
@@ -20,6 +21,6 @@ public class CanOperateHandler extends QueryHandler<CanOperateQuery, Boolean> {
 
     @Override
     protected Mono<Boolean> doHandle(CanOperateQuery query) {
-        return operationsApi.canDistributorOperateInLocation(query.distributorId(), query.operationId(), query.locationId());
+        return operationsApi.canDistributorOperateInLocation(query.distributorId(), query.operationId(), query.locationId(), UUID.randomUUID().toString());
     }
 }

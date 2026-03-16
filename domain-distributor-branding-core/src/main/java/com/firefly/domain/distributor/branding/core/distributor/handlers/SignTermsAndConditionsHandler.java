@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.branding.core.distributor.commands.SignTer
 import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
 import org.fireflyframework.cqrs.command.CommandHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 
 /**
@@ -22,6 +23,6 @@ public class SignTermsAndConditionsHandler extends CommandHandler<SignTermsAndCo
 
     @Override
     protected Mono<DistributorTermsAndConditionsDTO> doHandle(SignTermsAndConditionsCommand cmd) {
-        return termsApi.signTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId(), cmd.signedBy());
+        return termsApi.signTermsAndConditions(cmd.distributorId(), cmd.termsAndConditionsId(), cmd.signedBy(), UUID.randomUUID().toString());
     }
 }

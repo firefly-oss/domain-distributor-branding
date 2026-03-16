@@ -57,7 +57,7 @@ class OperationsHandlersTest {
     void createOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO(operationId, null, null, null, null);
 
-        when(operationsApi.createDistributorOperation(eq(distributorId), any(CreateOperationCommand.class)))
+        when(operationsApi.createDistributorOperation(eq(distributorId), any(CreateOperationCommand.class), isNull()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new CreateOperationCommand();
@@ -67,40 +67,40 @@ class OperationsHandlersTest {
                 .expectNext(operationId)
                 .verifyComplete();
 
-        verify(operationsApi).createDistributorOperation(eq(distributorId), any());
+        verify(operationsApi).createDistributorOperation(eq(distributorId), any(), isNull());
     }
 
     @Test
     void getOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.getDistributorOperationById(distributorId, operationId))
+        when(operationsApi.getDistributorOperationById(distributorId, operationId, null))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(getHandler.doHandle(new GetOperationQuery(distributorId, operationId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).getDistributorOperationById(distributorId, operationId);
+        verify(operationsApi).getDistributorOperationById(distributorId, operationId, null);
     }
 
     @Test
     void listOperations_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.getOperationsByDistributorId(distributorId))
+        when(operationsApi.getOperationsByDistributorId(distributorId, null))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(listHandler.doHandle(new ListOperationsQuery(distributorId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).getOperationsByDistributorId(distributorId);
+        verify(operationsApi).getOperationsByDistributorId(distributorId, null);
     }
 
     @Test
     void updateOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO(operationId, null, null, null, null);
 
-        when(operationsApi.updateDistributorOperation(eq(distributorId), eq(operationId), any(UpdateOperationCommand.class)))
+        when(operationsApi.updateDistributorOperation(eq(distributorId), eq(operationId), any(UpdateOperationCommand.class), isNull()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new UpdateOperationCommand();
@@ -111,24 +111,24 @@ class OperationsHandlersTest {
                 .expectNext(operationId)
                 .verifyComplete();
 
-        verify(operationsApi).updateDistributorOperation(eq(distributorId), eq(operationId), any());
+        verify(operationsApi).updateDistributorOperation(eq(distributorId), eq(operationId), any(), isNull());
     }
 
     @Test
     void deleteOperation_shouldCallApi() {
-        when(operationsApi.deleteDistributorOperation(distributorId, operationId))
+        when(operationsApi.deleteDistributorOperation(distributorId, operationId, null))
                 .thenReturn(Mono.empty());
 
         StepVerifier.create(deleteHandler.doHandle(new DeleteOperationCommand(distributorId, operationId)))
                 .verifyComplete();
 
-        verify(operationsApi).deleteDistributorOperation(distributorId, operationId);
+        verify(operationsApi).deleteDistributorOperation(distributorId, operationId, null);
     }
 
     @Test
     void activateOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.activateDistributorOperation(distributorId, operationId, userId))
+        when(operationsApi.activateDistributorOperation(distributorId, operationId, userId, null))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new ActivateOperationCommand(distributorId, operationId, userId);
@@ -137,13 +137,13 @@ class OperationsHandlersTest {
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).activateDistributorOperation(distributorId, operationId, userId);
+        verify(operationsApi).activateDistributorOperation(distributorId, operationId, userId, null);
     }
 
     @Test
     void deactivateOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.deactivateDistributorOperation(distributorId, operationId, userId))
+        when(operationsApi.deactivateDistributorOperation(distributorId, operationId, userId, null))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new DeactivateOperationCommand(distributorId, operationId, userId);
@@ -152,18 +152,18 @@ class OperationsHandlersTest {
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).deactivateDistributorOperation(distributorId, operationId, userId);
+        verify(operationsApi).deactivateDistributorOperation(distributorId, operationId, userId, null);
     }
 
     @Test
     void canOperate_shouldCallApi() {
-        when(operationsApi.canDistributorOperateInLocation(distributorId, operationId, locationId))
+        when(operationsApi.canDistributorOperateInLocation(distributorId, operationId, locationId, null))
                 .thenReturn(Mono.just(true));
 
         StepVerifier.create(canOperateHandler.doHandle(new CanOperateQuery(distributorId, operationId, locationId)))
                 .expectNext(true)
                 .verifyComplete();
 
-        verify(operationsApi).canDistributorOperateInLocation(distributorId, operationId, locationId);
+        verify(operationsApi).canDistributorOperateInLocation(distributorId, operationId, locationId, null);
     }
 }

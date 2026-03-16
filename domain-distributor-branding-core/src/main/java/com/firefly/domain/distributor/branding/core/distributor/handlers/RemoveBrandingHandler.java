@@ -5,6 +5,7 @@ import org.fireflyframework.cqrs.command.CommandHandler;
 import com.firefly.core.distributor.sdk.api.DistributorBrandingApi;
 import com.firefly.domain.distributor.branding.core.distributor.commands.RemoveBrandingCommand;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @CommandHandlerComponent
 public class RemoveBrandingHandler extends CommandHandler<RemoveBrandingCommand, Void> {
@@ -17,7 +18,7 @@ public class RemoveBrandingHandler extends CommandHandler<RemoveBrandingCommand,
 
     @Override
     protected Mono<Void> doHandle(RemoveBrandingCommand cmd) {
-        return distributorBrandingApi.deleteDistributorBranding(cmd.distributorId(), cmd.brandingId());
+        return distributorBrandingApi.deleteDistributorBranding(cmd.distributorId(), cmd.brandingId(), UUID.randomUUID().toString());
     }
 }
 

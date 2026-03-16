@@ -5,6 +5,7 @@ import com.firefly.domain.distributor.branding.core.distributor.commands.DeleteC
 import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
 import org.fireflyframework.cqrs.command.CommandHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that deletes a configuration from a distributor.
@@ -20,6 +21,6 @@ public class DeleteConfigurationHandler extends CommandHandler<DeleteConfigurati
 
     @Override
     protected Mono<Void> doHandle(DeleteConfigurationCommand cmd) {
-        return configurationsApi.delete2(cmd.distributorId(), cmd.configurationId());
+        return configurationsApi.delete2(cmd.distributorId(), cmd.configurationId(), UUID.randomUUID().toString());
     }
 }
