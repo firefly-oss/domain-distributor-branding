@@ -3,8 +3,8 @@ package com.firefly.domain.distributor.branding.web.controller;
 import com.firefly.domain.distributor.branding.core.distributor.services.DistributorNetworkService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.webflux.test.autoconfigure.WebFluxTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
@@ -21,7 +21,7 @@ class AgentAgencyControllerTest {
     @Autowired
     private WebTestClient webTestClient;
 
-    @MockBean
+    @MockitoBean
     private DistributorNetworkService distributorNetworkService;
 
     private static final UUID DISTRIBUTOR_ID = UUID.randomUUID();

@@ -1,5 +1,7 @@
 package com.firefly.domain.distributor.branding.web.controller;
 
+import com.firefly.core.distributor.sdk.api.DistributorApi;
+import com.firefly.core.distributor.sdk.api.DistributorBrandingApi;
 import com.firefly.core.distributor.sdk.model.DistributorBrandingDTO;
 import com.firefly.core.distributor.sdk.model.DistributorDTO;
 import com.firefly.domain.distributor.branding.core.distributor.queries.GetDistributorBrandingQuery;
@@ -7,8 +9,8 @@ import com.firefly.domain.distributor.branding.core.distributor.queries.GetDistr
 import org.fireflyframework.cqrs.query.QueryBus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.webflux.test.autoconfigure.WebFluxTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
@@ -24,8 +26,14 @@ class DistributorQueryControllerTest {
     @Autowired
     private WebTestClient webTestClient;
 
-    @MockBean
+    @MockitoBean
     private QueryBus queryBus;
+
+    @MockitoBean
+    private DistributorApi distributorApi;
+
+    @MockitoBean
+    private DistributorBrandingApi distributorBrandingApi;
 
     private static final UUID DISTRIBUTOR_ID = UUID.randomUUID();
     private static final UUID BRANDING_ID = UUID.randomUUID();

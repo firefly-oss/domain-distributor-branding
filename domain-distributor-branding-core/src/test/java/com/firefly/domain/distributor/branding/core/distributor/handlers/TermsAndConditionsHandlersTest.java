@@ -57,47 +57,47 @@ class TermsAndConditionsHandlersTest {
     @Test
     void listTermsAndConditions_shouldCallApi() {
         var dto = new DistributorTermsAndConditionsDTO();
-        when(termsApi.getTermsAndConditionsByDistributorId(distributorId, null))
+        when(termsApi.getTermsAndConditionsByDistributorId(eq(distributorId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(listHandler.doHandle(new ListTermsAndConditionsQuery(distributorId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(termsApi).getTermsAndConditionsByDistributorId(distributorId, null);
+        verify(termsApi).getTermsAndConditionsByDistributorId(eq(distributorId), anyString());
     }
 
     @Test
     void getActiveTermsAndConditions_shouldCallApi() {
         var dto = new DistributorTermsAndConditionsDTO();
-        when(termsApi.getActiveTermsAndConditionsByDistributorId(distributorId, null))
+        when(termsApi.getActiveTermsAndConditionsByDistributorId(eq(distributorId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(getActiveHandler.doHandle(new GetActiveTermsAndConditionsQuery(distributorId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(termsApi).getActiveTermsAndConditionsByDistributorId(distributorId, null);
+        verify(termsApi).getActiveTermsAndConditionsByDistributorId(eq(distributorId), anyString());
     }
 
     @Test
     void getLatestTermsAndConditions_shouldCallApi() {
         var dto = new DistributorTermsAndConditionsDTO();
-        when(termsApi.getLatestTermsAndConditions(distributorId, null))
+        when(termsApi.getLatestTermsAndConditions(eq(distributorId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(getLatestHandler.doHandle(new GetLatestTermsAndConditionsQuery(distributorId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(termsApi).getLatestTermsAndConditions(distributorId, null);
+        verify(termsApi).getLatestTermsAndConditions(eq(distributorId), anyString());
     }
 
     @Test
     void createTermsAndConditions_shouldCallApi() {
         var dto = new DistributorTermsAndConditionsDTO(termsId, null, null, null, null);
 
-        when(termsApi.createDistributorTermsAndConditions(eq(distributorId), any(CreateTermsAndConditionsCommand.class), isNull()))
+        when(termsApi.createDistributorTermsAndConditions(eq(distributorId), any(CreateTermsAndConditionsCommand.class), anyString()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new CreateTermsAndConditionsCommand();
@@ -107,26 +107,26 @@ class TermsAndConditionsHandlersTest {
                 .expectNext(termsId)
                 .verifyComplete();
 
-        verify(termsApi).createDistributorTermsAndConditions(eq(distributorId), any(), isNull());
+        verify(termsApi).createDistributorTermsAndConditions(eq(distributorId), any(), anyString());
     }
 
     @Test
     void getTermsAndConditionsDetail_shouldCallApi() {
         var dto = new DistributorTermsAndConditionsDTO();
-        when(termsApi.getDistributorTermsAndConditionsById(distributorId, termsId, null))
+        when(termsApi.getDistributorTermsAndConditionsById(eq(distributorId), eq(termsId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(getDetailHandler.doHandle(new GetTermsAndConditionsDetailQuery(distributorId, termsId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(termsApi).getDistributorTermsAndConditionsById(distributorId, termsId, null);
+        verify(termsApi).getDistributorTermsAndConditionsById(eq(distributorId), eq(termsId), anyString());
     }
 
     @Test
     void signTermsAndConditions_shouldCallApi() {
         var dto = new DistributorTermsAndConditionsDTO();
-        when(termsApi.signTermsAndConditions(distributorId, termsId, userId, null))
+        when(termsApi.signTermsAndConditions(eq(distributorId), eq(termsId), eq(userId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new SignTermsAndConditionsCommand(distributorId, termsId, userId);
@@ -135,13 +135,13 @@ class TermsAndConditionsHandlersTest {
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(termsApi).signTermsAndConditions(distributorId, termsId, userId, null);
+        verify(termsApi).signTermsAndConditions(eq(distributorId), eq(termsId), eq(userId), anyString());
     }
 
     @Test
     void activateTermsAndConditions_shouldCallApi() {
         var dto = new DistributorTermsAndConditionsDTO();
-        when(termsApi.activateTermsAndConditions(distributorId, termsId, userId, null))
+        when(termsApi.activateTermsAndConditions(eq(distributorId), eq(termsId), eq(userId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new ActivateTermsAndConditionsCommand(distributorId, termsId, userId);
@@ -150,13 +150,13 @@ class TermsAndConditionsHandlersTest {
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(termsApi).activateTermsAndConditions(distributorId, termsId, userId, null);
+        verify(termsApi).activateTermsAndConditions(eq(distributorId), eq(termsId), eq(userId), anyString());
     }
 
     @Test
     void deactivateTermsAndConditions_shouldCallApi() {
         var dto = new DistributorTermsAndConditionsDTO();
-        when(termsApi.deactivateTermsAndConditions(distributorId, termsId, userId, null))
+        when(termsApi.deactivateTermsAndConditions(eq(distributorId), eq(termsId), eq(userId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new DeactivateTermsAndConditionsCommand(distributorId, termsId, userId);
@@ -165,18 +165,18 @@ class TermsAndConditionsHandlersTest {
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(termsApi).deactivateTermsAndConditions(distributorId, termsId, userId, null);
+        verify(termsApi).deactivateTermsAndConditions(eq(distributorId), eq(termsId), eq(userId), anyString());
     }
 
     @Test
     void hasActiveSignedTerms_shouldCallApi() {
-        when(termsApi.hasActiveSignedTerms(distributorId, null))
+        when(termsApi.hasActiveSignedTerms(eq(distributorId), anyString()))
                 .thenReturn(Mono.just(true));
 
         StepVerifier.create(hasActiveSignedHandler.doHandle(new HasActiveSignedTermsQuery(distributorId)))
                 .expectNext(true)
                 .verifyComplete();
 
-        verify(termsApi).hasActiveSignedTerms(distributorId, null);
+        verify(termsApi).hasActiveSignedTerms(eq(distributorId), anyString());
     }
 }

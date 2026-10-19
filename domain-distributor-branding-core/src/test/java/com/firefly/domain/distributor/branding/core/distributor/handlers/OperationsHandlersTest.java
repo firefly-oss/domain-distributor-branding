@@ -57,7 +57,7 @@ class OperationsHandlersTest {
     void createOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO(operationId, null, null, null, null);
 
-        when(operationsApi.createDistributorOperation(eq(distributorId), any(CreateOperationCommand.class), isNull()))
+        when(operationsApi.createDistributorOperation(eq(distributorId), any(CreateOperationCommand.class), anyString()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new CreateOperationCommand();
@@ -67,40 +67,40 @@ class OperationsHandlersTest {
                 .expectNext(operationId)
                 .verifyComplete();
 
-        verify(operationsApi).createDistributorOperation(eq(distributorId), any(), isNull());
+        verify(operationsApi).createDistributorOperation(eq(distributorId), any(), anyString());
     }
 
     @Test
     void getOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.getDistributorOperationById(distributorId, operationId, null))
+        when(operationsApi.getDistributorOperationById(eq(distributorId), eq(operationId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(getHandler.doHandle(new GetOperationQuery(distributorId, operationId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).getDistributorOperationById(distributorId, operationId, null);
+        verify(operationsApi).getDistributorOperationById(eq(distributorId), eq(operationId), anyString());
     }
 
     @Test
     void listOperations_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.getOperationsByDistributorId(distributorId, null))
+        when(operationsApi.getOperationsByDistributorId(eq(distributorId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(listHandler.doHandle(new ListOperationsQuery(distributorId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).getOperationsByDistributorId(distributorId, null);
+        verify(operationsApi).getOperationsByDistributorId(eq(distributorId), anyString());
     }
 
     @Test
     void updateOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO(operationId, null, null, null, null);
 
-        when(operationsApi.updateDistributorOperation(eq(distributorId), eq(operationId), any(UpdateOperationCommand.class), isNull()))
+        when(operationsApi.updateDistributorOperation(eq(distributorId), eq(operationId), any(UpdateOperationCommand.class), anyString()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new UpdateOperationCommand();
@@ -111,24 +111,24 @@ class OperationsHandlersTest {
                 .expectNext(operationId)
                 .verifyComplete();
 
-        verify(operationsApi).updateDistributorOperation(eq(distributorId), eq(operationId), any(), isNull());
+        verify(operationsApi).updateDistributorOperation(eq(distributorId), eq(operationId), any(), anyString());
     }
 
     @Test
     void deleteOperation_shouldCallApi() {
-        when(operationsApi.deleteDistributorOperation(distributorId, operationId, null))
+        when(operationsApi.deleteDistributorOperation(eq(distributorId), eq(operationId), anyString()))
                 .thenReturn(Mono.empty());
 
         StepVerifier.create(deleteHandler.doHandle(new DeleteOperationCommand(distributorId, operationId)))
                 .verifyComplete();
 
-        verify(operationsApi).deleteDistributorOperation(distributorId, operationId, null);
+        verify(operationsApi).deleteDistributorOperation(eq(distributorId), eq(operationId), anyString());
     }
 
     @Test
     void activateOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.activateDistributorOperation(distributorId, operationId, userId, null))
+        when(operationsApi.activateDistributorOperation(eq(distributorId), eq(operationId), eq(userId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new ActivateOperationCommand(distributorId, operationId, userId);
@@ -137,13 +137,13 @@ class OperationsHandlersTest {
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).activateDistributorOperation(distributorId, operationId, userId, null);
+        verify(operationsApi).activateDistributorOperation(eq(distributorId), eq(operationId), eq(userId), anyString());
     }
 
     @Test
     void deactivateOperation_shouldCallApi() {
         var dto = new DistributorOperationDTO();
-        when(operationsApi.deactivateDistributorOperation(distributorId, operationId, userId, null))
+        when(operationsApi.deactivateDistributorOperation(eq(distributorId), eq(operationId), eq(userId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new DeactivateOperationCommand(distributorId, operationId, userId);
@@ -152,18 +152,18 @@ class OperationsHandlersTest {
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(operationsApi).deactivateDistributorOperation(distributorId, operationId, userId, null);
+        verify(operationsApi).deactivateDistributorOperation(eq(distributorId), eq(operationId), eq(userId), anyString());
     }
 
     @Test
     void canOperate_shouldCallApi() {
-        when(operationsApi.canDistributorOperateInLocation(distributorId, operationId, locationId, null))
+        when(operationsApi.canDistributorOperateInLocation(eq(distributorId), eq(operationId), eq(locationId), anyString()))
                 .thenReturn(Mono.just(true));
 
         StepVerifier.create(canOperateHandler.doHandle(new CanOperateQuery(distributorId, operationId, locationId)))
                 .expectNext(true)
                 .verifyComplete();
 
-        verify(operationsApi).canDistributorOperateInLocation(distributorId, operationId, locationId, null);
+        verify(operationsApi).canDistributorOperateInLocation(eq(distributorId), eq(operationId), eq(locationId), anyString());
     }
 }

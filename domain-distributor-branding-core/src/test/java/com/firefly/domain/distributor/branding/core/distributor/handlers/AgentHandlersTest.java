@@ -54,7 +54,7 @@ class AgentHandlersTest {
     void createAgent_shouldCallApi() {
         var dto = new DistributorAgentDTO(agentId, null, null, null, null);
 
-        when(agentsApi.create4(eq(distributorId), any(CreateAgentCommand.class), isNull()))
+        when(agentsApi.create4(eq(distributorId), any(CreateAgentCommand.class), anyString()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new CreateAgentCommand();
@@ -64,42 +64,42 @@ class AgentHandlersTest {
                 .expectNext(agentId)
                 .verifyComplete();
 
-        verify(agentsApi).create4(eq(distributorId), any(), isNull());
+        verify(agentsApi).create4(eq(distributorId), any(), anyString());
     }
 
     @Test
     void getAgent_shouldCallApi() {
         var dto = new DistributorAgentDTO(agentId, null, null, null, null);
 
-        when(agentsApi.getById4(distributorId, agentId, null))
+        when(agentsApi.getById4(eq(distributorId), eq(agentId), anyString()))
                 .thenReturn(Mono.just(dto));
 
         StepVerifier.create(getHandler.doHandle(new GetAgentQuery(distributorId, agentId)))
                 .expectNext(dto)
                 .verifyComplete();
 
-        verify(agentsApi).getById4(distributorId, agentId, null);
+        verify(agentsApi).getById4(eq(distributorId), eq(agentId), anyString());
     }
 
     @Test
     void listAgents_shouldCallFilterApi() {
         var response = new PaginationResponse();
 
-        when(agentsApi.filter4(eq(distributorId), any(FilterRequestDistributorAgentDTO.class), isNull()))
+        when(agentsApi.filter4(eq(distributorId), any(FilterRequestDistributorAgentDTO.class), anyString()))
                 .thenReturn(Mono.just(response));
 
         StepVerifier.create(listHandler.doHandle(new ListAgentsQuery(distributorId)))
                 .expectNext(response)
                 .verifyComplete();
 
-        verify(agentsApi).filter4(eq(distributorId), any(), isNull());
+        verify(agentsApi).filter4(eq(distributorId), any(), anyString());
     }
 
     @Test
     void updateAgent_shouldCallApi() {
         var dto = new DistributorAgentDTO(agentId, null, null, null, null);
 
-        when(agentsApi.update4(eq(distributorId), eq(agentId), any(UpdateAgentCommand.class), isNull()))
+        when(agentsApi.update4(eq(distributorId), eq(agentId), any(UpdateAgentCommand.class), anyString()))
                 .thenReturn(Mono.just(dto));
 
         var cmd = new UpdateAgentCommand();
@@ -110,17 +110,17 @@ class AgentHandlersTest {
                 .expectNext(agentId)
                 .verifyComplete();
 
-        verify(agentsApi).update4(eq(distributorId), eq(agentId), any(), isNull());
+        verify(agentsApi).update4(eq(distributorId), eq(agentId), any(), anyString());
     }
 
     @Test
     void deleteAgent_shouldCallApi() {
-        when(agentsApi.delete4(distributorId, agentId, null))
+        when(agentsApi.delete4(eq(distributorId), eq(agentId), anyString()))
                 .thenReturn(Mono.empty());
 
         StepVerifier.create(deleteHandler.doHandle(new DeleteAgentCommand(distributorId, agentId)))
                 .verifyComplete();
 
-        verify(agentsApi).delete4(distributorId, agentId, null);
+        verify(agentsApi).delete4(eq(distributorId), eq(agentId), anyString());
     }
 }
