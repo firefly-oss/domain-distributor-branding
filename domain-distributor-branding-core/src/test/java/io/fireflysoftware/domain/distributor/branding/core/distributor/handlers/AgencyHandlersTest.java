@@ -1,0 +1,126 @@
+package io.fireflysoftware.domain.distributor.branding.core.distributor.handlers;
+
+import io.fireflysoftware.core.distributor.sdk.api.DistributorAgenciesApi;
+import io.fireflysoftware.core.distributor.sdk.model.DistributorAgencyDTO;
+import io.fireflysoftware.core.distributor.sdk.model.FilterRequestDistributorAgencyDTO;
+import io.fireflysoftware.core.distributor.sdk.model.PaginationResponse;
+import io.fireflysoftware.domain.distributor.branding.core.distributor.commands.CreateAgencyCommand;
+import io.fireflysoftware.domain.distributor.branding.core.distributor.commands.DeleteAgencyCommand;
+import io.fireflysoftware.domain.distributor.branding.core.distributor.commands.UpdateAgencyCommand;
+import io.fireflysoftware.domain.distributor.branding.core.distributor.queries.GetAgencyQuery;
+import io.fireflysoftware.domain.distributor.branding.core.distributor.queries.ListAgenciesQuery;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
+
+import java.util.UUID;
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+/**
+ * Unit tests for agency command and query handlers.
+ */
+@ExtendWith(MockitoExtension.class)
+class AgencyHandlersTest {
+
+    @Mock
+    private DistributorAgenciesApi agenciesApi;
+
+    private CreateAgencyHandler createHandler;
+    private GetAgencyHandler getHandler;
+    private ListAgenciesHandler listHandler;
+    private UpdateAgencyHandler updateHandler;
+    private DeleteAgencyHandler deleteHandler;
+
+    private final UUID distributorId = UUID.randomUUID();
+    private final UUID agencyId = UUID.randomUUID();
+
+    @BeforeEach
+    void setUp() {
+        createHandler = new CreateAgencyHandler(agenciesApi);
+        getHandler = new GetAgencyHandler(agenciesApi);
+        listHandler = new ListAgenciesHandler(agenciesApi);
+        updateHandler = new UpdateAgencyHandler(agenciesApi);
+        deleteHandler = new DeleteAgencyHandler(agenciesApi);
+    }
+
+    @Test
+    void createAgency_shouldCallApi() {
+        var dto = new DistributorAgencyDTO(agencyId, null, null, null, null);
+
+        when(agenciesApi.create6(eq(distributorId), any(CreateAgencyCommand.class), anyString()))
+                .thenReturn(Mono.just(dto));
+
+        var cmd = new CreateAgencyCommand();
+        cmd.withDistributorId(distributorId);
+
+        StepVerifier.create(createHandler.doHandle(cmd))
+                .expectNext(agencyId)
+                .verifyComplete();
+
+        verify(agenciesApi).create6(eq(distributorId), any(), anyString());
+    }
+
+    @Test
+    void getAgency_shouldCallApi() {
+        var dto = new DistributorAgencyDTO(agencyId, null, null, null, null);
+
+        when(agenciesApi.getById6(eq(distributorId), eq(agencyId), anyString()))
+                .thenReturn(Mono.just(dto));
+
+        StepVerifier.create(getHandler.doHandle(new GetAgencyQuery(distributorId, agencyId)))
+                .expectNext(dto)
+                .verifyComplete();
+
+        verify(agenciesApi).getById6(eq(distributorId), eq(agencyId), anyString());
+    }
+
+    @Test
+    void listAgencies_shouldCallFilterApi() {
+        var response = new PaginationResponse();
+
+        when(agenciesApi.filter6(eq(distributorId), any(FilterRequestDistributorAgencyDTO.class), anyString()))
+                .thenReturn(Mono.just(response));
+
+        StepVerifier.create(listHandler.doHandle(new ListAgenciesQuery(distributorId)))
+                .expectNext(response)
+                .verifyComplete();
+
+        verify(agenciesApi).filter6(eq(distributorId), any(), anyString());
+    }
+
+    @Test
+    void updateAgency_shouldCallApi() {
+        var dto = new DistributorAgencyDTO(agencyId, null, null, null, null);
+
+        when(agenciesApi.update6(eq(distributorId), eq(agencyId), any(UpdateAgencyCommand.class), anyString()))
+                .thenReturn(Mono.just(dto));
+
+        var cmd = new UpdateAgencyCommand();
+        cmd.withDistributorId(distributorId);
+        cmd.withId(agencyId);
+
+        StepVerifier.create(updateHandler.doHandle(cmd))
+                .expectNext(agencyId)
+                .verifyComplete();
+
+        verify(agenciesApi).update6(eq(distributorId), eq(agencyId), any(), anyString());
+    }
+
+    @Test
+    void deleteAgency_shouldCallApi() {
+        when(agenciesApi.delete6(eq(distributorId), eq(agencyId), anyString()))
+                .thenReturn(Mono.empty());
+
+        StepVerifier.create(deleteHandler.doHandle(new DeleteAgencyCommand(distributorId, agencyId)))
+                .verifyComplete();
+
+        verify(agenciesApi).delete6(eq(distributorId), eq(agencyId), anyString());
+    }
+}

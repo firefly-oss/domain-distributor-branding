@@ -61,7 +61,7 @@ springdoc:
     operationsSorter: method
     docExpansion: none
     filter: true
-  packages-to-scan: com.firefly.domain.distributor.branding.web.controller
+  packages-to-scan: io.fireflysoftware.domain.distributor.branding.web.controller
   paths-to-match: /api/**
 
 management:
@@ -87,6 +87,6 @@ logging:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   level:
     root: INFO
-    com.firefly: DEBUG
+    io.fireflysoftware: DEBUG
     org.springframework.r2dbc: DEBUG
     org.flywaydb: DEBUG

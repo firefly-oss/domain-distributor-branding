@@ -408,7 +408,7 @@ All properties are defined in `domain-distributor-branding-web/src/main/resource
 | `management.health.livenessState.enabled` | `true` | Exposes Kubernetes liveness probe |
 | `management.health.readinessState.enabled` | `true` | Exposes Kubernetes readiness probe |
 | `logging.level.root` | `INFO` | Root logging level |
-| `logging.level.com.firefly` | `DEBUG` | Debug logging for all Firefly packages |
+| `logging.level.io.fireflysoftware` | `DEBUG` | Debug logging for all Firefly packages |
 | `logging.level.org.springframework.r2dbc` | `DEBUG` | R2DBC query logging |
 | `logging.level.org.flywaydb` | `DEBUG` | Flyway migration logging |
 
