@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>domain-distributor-branding-sdk</artifactId>
+    <name>domain-distributor-branding-sdk</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

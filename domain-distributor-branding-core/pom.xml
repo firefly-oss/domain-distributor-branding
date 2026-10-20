@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>domain-distributor-branding-core</artifactId>
+    <name>domain-distributor-branding-core</name>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
