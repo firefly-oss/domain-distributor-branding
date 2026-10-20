@@ -364,7 +364,7 @@ All properties are defined in `domain-distributor-branding-web/src/main/resource
 | `spring.application.version` | `1.0.0` | Service version exposed in the OpenAPI definition |
 | `spring.application.description` | `Distributor Domain Branding Layer Application` | OpenAPI description |
 | `spring.application.team.name` | `Firefly Software Foundation` | Team name shown in OpenAPI contact |
-| `spring.application.team.email` | `dev@getfirefly.io` | Team email shown in OpenAPI contact |
+| `spring.application.team.email` | `dev@fireflysoftware.io` | Team email shown in OpenAPI contact |
 | `spring.threads.virtual.enabled` | `true` | Enables Java virtual threads |
 | `server.address` | `localhost` / `SERVER_ADDRESS` | Bind address for the HTTP server |
 | `server.port` | `8080` / `SERVER_PORT` | HTTP server port |
