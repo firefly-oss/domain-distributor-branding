@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Firefly Software Foundation
+ * Copyright 2026 Firefly Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,41 @@
 
 package io.fireflysoftware.domain.distributor.branding.core.distributor.handlers;
 
+import io.fireflysoftware.core.distributor.sdk.api.DistributorAuditLogApi;
+import io.fireflysoftware.core.distributor.sdk.model.FilterRequestDistributorAuditLogDTO;
+import io.fireflysoftware.core.distributor.sdk.model.PaginationResponse;
+import io.fireflysoftware.domain.distributor.branding.core.distributor.queries.ReviewBrandingAuditLogsQuery;
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
-import io.fireflysoftware.domain.distributor.branding.core.distributor.queries.ReviewBrandingAuditLogsQuery;
 import reactor.core.publisher.Mono;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @QueryHandlerComponent
 public class ReviewBrandingAuditLogsQueryHandler extends QueryHandler<ReviewBrandingAuditLogsQuery, List<Object>> {
 
+    private final DistributorAuditLogApi distributorAuditLogApi;
+
+    public ReviewBrandingAuditLogsQueryHandler(DistributorAuditLogApi distributorAuditLogApi) {
+        this.distributorAuditLogApi = distributorAuditLogApi;
+    }
+
     @Override
     protected Mono<List<Object>> doHandle(ReviewBrandingAuditLogsQuery query) {
-        // TODO: Implement audit logs retrieval logic
-        // This should review distributor branding and T&C audit logs
-        return Mono.just(Collections.emptyList());
+        return distributorAuditLogApi.filterDistributorAuditLogsWithResponseSpec(
+                        query.getDistributorId(),
+                        new FilterRequestDistributorAuditLogDTO(),
+                        UUID.randomUUID().toString())
+                .bodyToMono(PaginationResponse.class)
+                .map(ReviewBrandingAuditLogsQueryHandler::content);
+    }
+
+    private static List<Object> content(PaginationResponse page) {
+        if (page == null || page.getContent() == null) {
+            return List.of();
+        }
+        return new ArrayList<>(page.getContent());
     }
 }
-
