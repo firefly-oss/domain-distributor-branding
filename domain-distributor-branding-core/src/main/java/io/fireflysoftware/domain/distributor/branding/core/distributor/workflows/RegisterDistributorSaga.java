@@ -59,6 +59,9 @@ public class RegisterDistributorSaga {
     @SagaStep(id = STEP_REGISTER_TANDC_TEMPLATE, compensate = COMPENSATE_REMOVE_TANDC_TEMPLATE)
     @StepEvent(type = EVENT_TANDC_TEMPLATE_REGISTERED)
     public Mono<UUID> registerTAndCTemplate(RegisterTandCTemplateCommand cmd, ExecutionContext ctx) {
+        if (cmd == null) {
+            return Mono.empty();
+        }
         return commandBus.send(cmd)
                 .doOnNext(templateId -> ctx.putVariable(CTX_TEMPLATE_ID, templateId));
     }
@@ -70,6 +73,9 @@ public class RegisterDistributorSaga {
     @SagaStep(id = STEP_REGISTER_TERMS_AND_CONDITIONS, compensate = COMPENSATE_REMOVE_TERMS_AND_CONDITIONS, dependsOn = {STEP_REGISTER_TANDC_TEMPLATE, STEP_REGISTER_DISTRIBUTOR})
     @StepEvent(type = EVENT_TERMS_AND_CONDITIONS_REGISTERED)
     public Mono<UUID> registerTermsAndConditions(RegisterTermsAndConditionsCommand cmd, ExecutionContext ctx) {
+        if (cmd == null) {
+            return Mono.empty();
+        }
         return commandBus.send(cmd
                         .withDistributorId(ctx.getVariableAs(CTX_DISTRIBUTOR_ID, UUID.class))
                         .withTemplate(ctx.getVariableAs(CTX_TEMPLATE_ID, UUID.class)));
@@ -82,6 +88,9 @@ public class RegisterDistributorSaga {
     @SagaStep(id = STEP_REGISTER_AUDIT_LOG, compensate = COMPENSATE_REMOVE_AUDIT_LOG, dependsOn = {STEP_REGISTER_DISTRIBUTOR})
     @StepEvent(type = EVENT_AUDIT_LOG_REGISTERED)
     public Mono<UUID> registerAuditLog(RegisterDistributorAuditLogCommand cmd, ExecutionContext ctx) {
+        if (cmd == null) {
+            return Mono.empty();
+        }
         return commandBus.send(cmd.withDistributorId(ctx.getVariableAs(CTX_DISTRIBUTOR_ID, UUID.class)))
                 .doOnNext(auditLogId -> ctx.putVariable(CTX_AUDIT_LOG_ID, auditLogId));
     }
@@ -93,6 +102,9 @@ public class RegisterDistributorSaga {
     @SagaStep(id = STEP_REGISTER_BRANDING, compensate = COMPENSATE_REMOVE_BRANDING, dependsOn = {STEP_REGISTER_DISTRIBUTOR})
     @StepEvent(type = EVENT_BRANDING_REGISTERED)
     public Mono<UUID> registerBranding(RegisterDistributorBrandingCommand cmd, ExecutionContext ctx) {
+        if (cmd == null) {
+            return Mono.empty();
+        }
         return commandBus.send(cmd.withDistributorId(ctx.getVariableAs(CTX_DISTRIBUTOR_ID, UUID.class)))
                 .doOnNext(brandingId -> ctx.putVariable(CTX_BRANDING_ID, brandingId));
     }

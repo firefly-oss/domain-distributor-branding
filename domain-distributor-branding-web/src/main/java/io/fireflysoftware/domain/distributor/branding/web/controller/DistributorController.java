@@ -30,6 +30,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -44,7 +46,12 @@ public class DistributorController {
     @PostMapping
     public Mono<ResponseEntity<Object>> onboardDistributor(@Valid @RequestBody RegisterDistributorCommand command) {
         return distributorService.onboardDistributor(command)
-                .thenReturn(ResponseEntity.ok().build());
+                .map(result -> {
+                    UUID id = result.resultOf("registerDistributor", UUID.class).orElse(null);
+                    Map<String, Object> body = new LinkedHashMap<>();
+                    body.put("id", id);
+                    return ResponseEntity.ok((Object) body);
+                });
     }
 
     @Operation(summary = "Revise Branding", description = "Revise distributor's branding configuration.")
