@@ -17,13 +17,21 @@
 
 package io.fireflysoftware.domain.distributor.branding.web.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.fireflysoftware.core.distributor.sdk.api.DistributorApi;
 import io.fireflysoftware.core.distributor.sdk.api.DistributorBrandingApi;
 import io.fireflysoftware.core.distributor.sdk.model.DistributorBrandingDTO;
 import io.fireflysoftware.core.distributor.sdk.model.DistributorDTO;
 import io.fireflysoftware.core.distributor.sdk.model.FilterRequestDistributorBrandingDTO;
+import io.fireflysoftware.core.distributor.sdk.model.FilterRequestDistributorDTO;
+import io.fireflysoftware.core.distributor.sdk.model.PaginationRequest;
+import io.fireflysoftware.core.distributor.sdk.model.PaginationResponse;
+import io.fireflysoftware.domain.distributor.branding.core.distributor.commands.RegisterDistributorAuditLogCommand;
 import io.fireflysoftware.domain.distributor.branding.core.distributor.queries.GetDistributorBrandingQuery;
 import io.fireflysoftware.domain.distributor.branding.core.distributor.queries.GetDistributorProfileQuery;
+import org.fireflyframework.cqrs.command.CommandBus;
+import org.springframework.http.HttpStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,6 +44,10 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -45,7 +57,10 @@ import java.util.UUID;
 @Tag(name = "Distributor Query", description = "Query endpoints for distributor profile and branding")
 public class DistributorQueryController {
 
+    private static final ObjectMapper JSON = new ObjectMapper();
+
     private final QueryBus queryBus;
+    private final CommandBus commandBus;
     private final DistributorApi distributorApi;
     private final DistributorBrandingApi distributorBrandingApi;
 
@@ -140,6 +155,75 @@ public class DistributorQueryController {
         log.debug("Creating branding for distributorId={}", distributorId);
         return distributorBrandingApi.createDistributorBranding(distributorId, brandingDTO, UUID.randomUUID().toString())
                 .map(ResponseEntity::ok);
+    }
+
+    @Operation(summary = "Filter distributors", description = "Returns distributors from the distributor core.")
+    @PostMapping("/filter")
+    public Mono<ResponseEntity<PaginationResponse>> filterDistributors() {
+        FilterRequestDistributorDTO request = new FilterRequestDistributorDTO();
+        request.setPagination(new PaginationRequest().pageNumber(0).pageSize(200));
+        return distributorApi.filterDistributorsWithResponseSpec(request, UUID.randomUUID().toString())
+                .bodyToMono(String.class)
+                .map(DistributorQueryController::page)
+                .map(ResponseEntity::ok);
+    }
+
+    @Operation(summary = "Record a staff attachment", description = "Writes an audit log row through the distributor core.")
+    @PostMapping("/{distributorId}/audit-logs")
+    public Mono<ResponseEntity<Map<String, Object>>> recordAuditLog(
+            @PathVariable UUID distributorId,
+            @Valid @RequestBody RegisterDistributorAuditLogCommand command) {
+        return commandBus.<UUID>send(command.withDistributorId(distributorId))
+                .flatMap(id -> {
+                    if (id == null) {
+                        return Mono.error(new IllegalStateException("Distributor audit log was not recorded"));
+                    }
+                    Map<String, Object> recorded = new LinkedHashMap<>();
+                    recorded.put("id", id);
+                    recorded.put("distributorId", distributorId);
+                    recorded.put("action", command.getAction());
+                    recorded.put("entity", command.getEntity());
+                    recorded.put("entityId", command.getEntityId());
+                    recorded.put("auditMetadata", command.getAuditMetadata());
+                    recorded.put("userId", command.getUserId());
+                    recorded.put("auditTimestamp", command.getAuditTimestamp());
+                    return Mono.just(ResponseEntity.status(HttpStatus.CREATED).body(recorded));
+                });
+    }
+
+    private static PaginationResponse page(String raw) {
+        PaginationResponse page = new PaginationResponse();
+        page.setContent(new ArrayList<>());
+        page.setTotalElements(0L);
+        page.setTotalPages(0);
+        page.setCurrentPage(0);
+        if (raw == null || raw.isBlank()) {
+            return page;
+        }
+        try {
+            JsonNode body = JSON.readTree(raw);
+            JsonNode rows = body.isArray() ? body : firstArray(body);
+            if (rows != null && rows.isArray()) {
+                List<Object> content = new ArrayList<>();
+                rows.forEach(row -> content.add(JSON.convertValue(row, Object.class)));
+                page.setContent(content);
+                page.setTotalElements(body.path("totalElements").isNumber() ? body.path("totalElements").asLong() : content.size());
+                page.setTotalPages(body.path("totalPages").isNumber() ? body.path("totalPages").asInt() : (content.isEmpty() ? 0 : 1));
+                page.setCurrentPage(body.path("currentPage").isNumber() ? body.path("currentPage").asInt() : 0);
+            }
+        } catch (Exception exception) {
+            throw new IllegalStateException("Distributor page was not readable");
+        }
+        return page;
+    }
+
+    private static JsonNode firstArray(JsonNode body) {
+        for (String field : new String[]{"content", "items", "data", "results"}) {
+            if (body.path(field).isArray()) {
+                return body.path(field);
+            }
+        }
+        return null;
     }
 
     @Operation(

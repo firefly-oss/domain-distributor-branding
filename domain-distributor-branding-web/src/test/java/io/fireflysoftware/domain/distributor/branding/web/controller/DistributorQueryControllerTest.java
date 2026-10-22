@@ -23,6 +23,7 @@ import io.fireflysoftware.core.distributor.sdk.model.DistributorBrandingDTO;
 import io.fireflysoftware.core.distributor.sdk.model.DistributorDTO;
 import io.fireflysoftware.domain.distributor.branding.core.distributor.queries.GetDistributorBrandingQuery;
 import io.fireflysoftware.domain.distributor.branding.core.distributor.queries.GetDistributorProfileQuery;
+import org.fireflyframework.cqrs.command.CommandBus;
 import org.fireflyframework.cqrs.query.QueryBus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,9 @@ class DistributorQueryControllerTest {
 
     @MockitoBean
     private QueryBus queryBus;
+
+    @MockitoBean
+    private CommandBus commandBus;
 
     @MockitoBean
     private DistributorApi distributorApi;

@@ -1226,6 +1226,42 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DistributorBrandingDTO"
+  /api/v1/distributors/{distributorId}/audit-logs:
+    post:
+      tags:
+      - Distributor Query
+      summary: Record a staff attachment
+      description: Writes an audit log row through the distributor core.
+      operationId: recordAuditLog
+      parameters:
+      - name: distributorId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterDistributorAuditLogCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
   /api/v1/distributors/{distributorId}/agents:
     get:
       tags:
@@ -1408,6 +1444,28 @@ paths:
               schema:
                 type: string
                 format: uuid
+  /api/v1/distributors/filter:
+    post:
+      tags:
+      - Distributor Query
+      summary: Filter distributors
+      description: Returns distributors from the distributor core.
+      operationId: filterDistributors
+      parameters:
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PaginationResponse"
   /api/v1/distributors/{distributorId}/terms-and-conditions/{tcId}/sign:
     patch:
       tags:
@@ -1773,6 +1831,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -1782,34 +1841,44 @@ components:
         administrativeDivisionId:
           type: string
           format: uuid
+          nullable: true
         authorizationLevel:
           type: string
+          nullable: true
           enum:
           - COUNTRY
           - REGION
           - CITY
         isActive:
           type: boolean
+          nullable: true
         authorizedFrom:
           type: string
           format: date-time
+          nullable: true
         authorizedUntil:
           type: string
           format: date-time
+          nullable: true
         notes:
           type: string
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     DistributorDTO:
       required:
       - name
@@ -1818,61 +1887,85 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         externalCode:
           type: string
+          nullable: true
         name:
           type: string
         displayName:
           type: string
+          nullable: true
         taxId:
           type: string
+          nullable: true
         registrationNumber:
           type: string
+          nullable: true
         websiteUrl:
           type: string
+          nullable: true
         phoneNumber:
           type: string
+          nullable: true
         email:
           type: string
+          nullable: true
         supportEmail:
           type: string
+          nullable: true
         addressLine:
           type: string
+          nullable: true
         postalCode:
           type: string
+          nullable: true
         city:
           type: string
+          nullable: true
         state:
           type: string
+          nullable: true
         countryId:
           type: string
           format: uuid
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         isTestDistributor:
           type: boolean
+          nullable: true
         timeZone:
           type: string
+          nullable: true
         defaultLocale:
           type: string
+          nullable: true
         onboardedAt:
           type: string
           format: date-time
+          nullable: true
         terminatedAt:
           type: string
           format: date-time
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     ReviseTermsAndConditionsCommand:
       required:
       - content
@@ -1885,12 +1978,14 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
         templateId:
           type: string
           format: uuid
+          nullable: true
         title:
           type: string
         content:
@@ -1903,30 +1998,40 @@ components:
         expirationDate:
           type: string
           format: date-time
+          nullable: true
         signedDate:
           type: string
           format: date-time
+          nullable: true
         signedBy:
           type: string
           format: uuid
+          nullable: true
         status:
           type: string
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         notes:
           type: string
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
         distributor:
           $ref: "#/components/schemas/DistributorDTO"
         template:
@@ -1942,41 +2047,53 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         name:
           type: string
         description:
           type: string
+          nullable: true
         category:
           type: string
         templateContent:
           type: string
         variables:
           type: string
+          nullable: true
         version:
           type: string
         isDefault:
           type: boolean
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         approvalRequired:
           type: boolean
+          nullable: true
         autoRenewal:
           type: boolean
+          nullable: true
         renewalPeriodMonths:
           type: integer
           format: int32
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     UpdateOperationCommand:
       required:
       - administrativeDivisionId
@@ -1987,6 +2104,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -1999,23 +2117,30 @@ components:
         managedByAgentId:
           type: string
           format: uuid
+          nullable: true
         agencyId:
           type: string
           format: uuid
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     UpdateConfigurationCommand:
       required:
       - configKey
@@ -2028,15 +2153,18 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
         agencyId:
           type: string
           format: uuid
+          nullable: true
         agentId:
           type: string
           format: uuid
+          nullable: true
         scopeId:
           type: string
           format: uuid
@@ -2049,32 +2177,43 @@ components:
           format: uuid
         category:
           type: string
+          nullable: true
         description:
           type: string
+          nullable: true
         isSensitive:
           type: boolean
+          nullable: true
         isOverridable:
           type: boolean
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         effectiveFrom:
           type: string
           format: date-time
+          nullable: true
         effectiveUntil:
           type: string
           format: date-time
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     ReviseBrandingCommand:
       required:
       - distributorId
@@ -2083,41 +2222,54 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
         logoUrl:
           type: string
+          nullable: true
         faviconUrl:
           type: string
+          nullable: true
         primaryColor:
           type: string
+          nullable: true
         secondaryColor:
           type: string
+          nullable: true
         backgroundColor:
           type: string
+          nullable: true
         fontFamily:
           type: string
+          nullable: true
         theme:
           type: string
+          nullable: true
           enum:
           - LIGHT
           - DARK
           - CUSTOM
         isDefault:
           type: boolean
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     SetDefaultBrandingCommand:
       required:
       - distributorId
@@ -2126,41 +2278,54 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
         logoUrl:
           type: string
+          nullable: true
         faviconUrl:
           type: string
+          nullable: true
         primaryColor:
           type: string
+          nullable: true
         secondaryColor:
           type: string
+          nullable: true
         backgroundColor:
           type: string
+          nullable: true
         fontFamily:
           type: string
+          nullable: true
         theme:
           type: string
+          nullable: true
           enum:
           - LIGHT
           - DARK
           - CUSTOM
         isDefault:
           type: boolean
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     UpdateAgentCommand:
       required:
       - distributorId
@@ -2173,6 +2338,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -2181,6 +2347,7 @@ components:
           format: uuid
         employeeCode:
           type: string
+          nullable: true
         firstName:
           type: string
         lastName:
@@ -2189,48 +2356,66 @@ components:
           type: string
         phoneNumber:
           type: string
+          nullable: true
         avatarUrl:
           type: string
+          nullable: true
         department:
           type: string
+          nullable: true
         unit:
           type: string
+          nullable: true
         jobTitle:
           type: string
+          nullable: true
         addressLine:
           type: string
+          nullable: true
         postalCode:
           type: string
+          nullable: true
         city:
           type: string
+          nullable: true
         state:
           type: string
+          nullable: true
         countryId:
           type: string
           format: uuid
+          nullable: true
         administrativeDivisionId:
           type: string
           format: uuid
+          nullable: true
         hireDate:
           type: string
           format: date
+          nullable: true
         terminationDate:
           type: string
           format: date
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     UpdateAgencyCommand:
       required:
       - code
@@ -2242,6 +2427,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -2251,68 +2437,94 @@ components:
           type: string
         description:
           type: string
+          nullable: true
         countryId:
           type: string
           format: uuid
         administrativeDivisionId:
           type: string
           format: uuid
+          nullable: true
         addressLine:
           type: string
+          nullable: true
         postalCode:
           type: string
+          nullable: true
         city:
           type: string
+          nullable: true
         state:
           type: string
+          nullable: true
         phoneNumber:
           type: string
+          nullable: true
         email:
           type: string
+          nullable: true
         legalEntityName:
           type: string
+          nullable: true
         legalFormId:
           type: string
           format: uuid
+          nullable: true
         taxId:
           type: string
+          nullable: true
         registrationNumber:
           type: string
+          nullable: true
         vatNumber:
           type: string
+          nullable: true
         fiscalAddressLine:
           type: string
+          nullable: true
         fiscalPostalCode:
           type: string
+          nullable: true
         fiscalCity:
           type: string
+          nullable: true
         fiscalState:
           type: string
+          nullable: true
         fiscalCountryId:
           type: string
           format: uuid
+          nullable: true
         isHeadquarters:
           type: boolean
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         openedAt:
           type: string
           format: date-time
+          nullable: true
         closedAt:
           type: string
           format: date-time
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     RegisterDistributorAuditLogCommand:
       required:
       - action
@@ -2325,6 +2537,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -2340,11 +2553,14 @@ components:
           type: string
         auditMetadata:
           type: string
+          nullable: true
         ipAddress:
           type: string
+          nullable: true
         userId:
           type: string
           format: uuid
+          nullable: true
         auditTimestamp:
           type: string
           format: date-time
@@ -2356,41 +2572,54 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
         logoUrl:
           type: string
+          nullable: true
         faviconUrl:
           type: string
+          nullable: true
         primaryColor:
           type: string
+          nullable: true
         secondaryColor:
           type: string
+          nullable: true
         backgroundColor:
           type: string
+          nullable: true
         fontFamily:
           type: string
+          nullable: true
         theme:
           type: string
+          nullable: true
           enum:
           - LIGHT
           - DARK
           - CUSTOM
         isDefault:
           type: boolean
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     RegisterDistributorCommand:
       type: object
       properties:
@@ -2412,61 +2641,85 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         externalCode:
           type: string
+          nullable: true
         name:
           type: string
         displayName:
           type: string
+          nullable: true
         taxId:
           type: string
+          nullable: true
         registrationNumber:
           type: string
+          nullable: true
         websiteUrl:
           type: string
+          nullable: true
         phoneNumber:
           type: string
+          nullable: true
         email:
           type: string
+          nullable: true
         supportEmail:
           type: string
+          nullable: true
         addressLine:
           type: string
+          nullable: true
         postalCode:
           type: string
+          nullable: true
         city:
           type: string
+          nullable: true
         state:
           type: string
+          nullable: true
         countryId:
           type: string
           format: uuid
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         isTestDistributor:
           type: boolean
+          nullable: true
         timeZone:
           type: string
+          nullable: true
         defaultLocale:
           type: string
+          nullable: true
         onboardedAt:
           type: string
           format: date-time
+          nullable: true
         terminatedAt:
           type: string
           format: date-time
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     RegisterTandCTemplateCommand:
       required:
       - category
@@ -2478,41 +2731,53 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         name:
           type: string
         description:
           type: string
+          nullable: true
         category:
           type: string
         templateContent:
           type: string
         variables:
           type: string
+          nullable: true
         version:
           type: string
         isDefault:
           type: boolean
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         approvalRequired:
           type: boolean
+          nullable: true
         autoRenewal:
           type: boolean
+          nullable: true
         renewalPeriodMonths:
           type: integer
           format: int32
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     RegisterTermsAndConditionsCommand:
       required:
       - content
@@ -2525,12 +2790,14 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
         templateId:
           type: string
           format: uuid
+          nullable: true
         title:
           type: string
         content:
@@ -2543,30 +2810,40 @@ components:
         expirationDate:
           type: string
           format: date-time
+          nullable: true
         signedDate:
           type: string
           format: date-time
+          nullable: true
         signedBy:
           type: string
           format: uuid
+          nullable: true
         status:
           type: string
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         notes:
           type: string
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
         distributor:
           $ref: "#/components/schemas/DistributorDTO"
         template:
@@ -2580,6 +2857,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -2589,34 +2867,44 @@ components:
         administrativeDivisionId:
           type: string
           format: uuid
+          nullable: true
         authorizationLevel:
           type: string
+          nullable: true
           enum:
           - COUNTRY
           - REGION
           - CITY
         isActive:
           type: boolean
+          nullable: true
         authorizedFrom:
           type: string
           format: date-time
+          nullable: true
         authorizedUntil:
           type: string
           format: date-time
+          nullable: true
         notes:
           type: string
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     CreateTermsAndConditionsCommand:
       required:
       - content
@@ -2629,12 +2917,14 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
         templateId:
           type: string
           format: uuid
+          nullable: true
         title:
           type: string
         content:
@@ -2647,30 +2937,40 @@ components:
         expirationDate:
           type: string
           format: date-time
+          nullable: true
         signedDate:
           type: string
           format: date-time
+          nullable: true
         signedBy:
           type: string
           format: uuid
+          nullable: true
         status:
           type: string
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         notes:
           type: string
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
         distributor:
           $ref: "#/components/schemas/DistributorDTO"
         template:
@@ -2685,6 +2985,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -2697,23 +2998,30 @@ components:
         managedByAgentId:
           type: string
           format: uuid
+          nullable: true
         agencyId:
           type: string
           format: uuid
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     CreateConfigurationCommand:
       required:
       - configKey
@@ -2726,15 +3034,18 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
         agencyId:
           type: string
           format: uuid
+          nullable: true
         agentId:
           type: string
           format: uuid
+          nullable: true
         scopeId:
           type: string
           format: uuid
@@ -2747,32 +3058,43 @@ components:
           format: uuid
         category:
           type: string
+          nullable: true
         description:
           type: string
+          nullable: true
         isSensitive:
           type: boolean
+          nullable: true
         isOverridable:
           type: boolean
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         effectiveFrom:
           type: string
           format: date-time
+          nullable: true
         effectiveUntil:
           type: string
           format: date-time
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     DistributorBrandingDTO:
       required:
       - distributorId
@@ -2781,48 +3103,63 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
         logoUrl:
           type: string
+          nullable: true
         faviconUrl:
           type: string
+          nullable: true
         primaryColor:
           type: string
+          nullable: true
         secondaryColor:
           type: string
+          nullable: true
         backgroundColor:
           type: string
+          nullable: true
         fontFamily:
           type: string
+          nullable: true
         theme:
           type: string
+          nullable: true
           enum:
           - LIGHT
           - DARK
           - CUSTOM
         isDefault:
           type: boolean
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     FilterOptions:
       type: object
       properties:
         caseInsensitiveStrings:
           type: boolean
+          nullable: true
         includeInheritedFields:
           type: boolean
+          nullable: true
     FilterRequestDistributorBrandingDTO:
       required:
       - pagination
@@ -2842,13 +3179,17 @@ components:
         pageNumber:
           type: integer
           format: int32
+          nullable: true
         pageSize:
           type: integer
           format: int32
+          nullable: true
         sortBy:
           type: string
+          nullable: true
         sortDirection:
           type: string
+          nullable: true
     RangeFilter:
       type: object
       properties:
@@ -2856,13 +3197,16 @@ components:
           type: object
           additionalProperties:
             $ref: "#/components/schemas/RangeObject"
+          nullable: true
     RangeObject:
       type: object
       properties:
         from:
           type: object
+          nullable: true
         to:
           type: object
+          nullable: true
     CreateAgentCommand:
       required:
       - distributorId
@@ -2875,6 +3219,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -2883,6 +3228,7 @@ components:
           format: uuid
         employeeCode:
           type: string
+          nullable: true
         firstName:
           type: string
         lastName:
@@ -2891,48 +3237,66 @@ components:
           type: string
         phoneNumber:
           type: string
+          nullable: true
         avatarUrl:
           type: string
+          nullable: true
         department:
           type: string
+          nullable: true
         unit:
           type: string
+          nullable: true
         jobTitle:
           type: string
+          nullable: true
         addressLine:
           type: string
+          nullable: true
         postalCode:
           type: string
+          nullable: true
         city:
           type: string
+          nullable: true
         state:
           type: string
+          nullable: true
         countryId:
           type: string
           format: uuid
+          nullable: true
         administrativeDivisionId:
           type: string
           format: uuid
+          nullable: true
         hireDate:
           type: string
           format: date
+          nullable: true
         terminationDate:
           type: string
           format: date
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     AssignAgentAgencyCommand:
       required:
       - agencyId
@@ -2943,6 +3307,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         agentId:
           type: string
           format: uuid
@@ -2954,26 +3319,34 @@ components:
           format: uuid
         isPrimaryAgency:
           type: boolean
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         assignedAt:
           type: string
           format: date-time
+          nullable: true
         unassignedAt:
           type: string
           format: date-time
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -2988,6 +3361,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -2997,68 +3371,114 @@ components:
           type: string
         description:
           type: string
+          nullable: true
         countryId:
           type: string
           format: uuid
         administrativeDivisionId:
           type: string
           format: uuid
+          nullable: true
         addressLine:
           type: string
+          nullable: true
         postalCode:
           type: string
+          nullable: true
         city:
           type: string
+          nullable: true
         state:
           type: string
+          nullable: true
         phoneNumber:
           type: string
+          nullable: true
         email:
           type: string
+          nullable: true
         legalEntityName:
           type: string
+          nullable: true
         legalFormId:
           type: string
           format: uuid
+          nullable: true
         taxId:
           type: string
+          nullable: true
         registrationNumber:
           type: string
+          nullable: true
         vatNumber:
           type: string
+          nullable: true
         fiscalAddressLine:
           type: string
+          nullable: true
         fiscalPostalCode:
           type: string
+          nullable: true
         fiscalCity:
           type: string
+          nullable: true
         fiscalState:
           type: string
+          nullable: true
         fiscalCountryId:
           type: string
           format: uuid
+          nullable: true
         isHeadquarters:
           type: boolean
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         openedAt:
           type: string
           format: date-time
+          nullable: true
         closedAt:
           type: string
           format: date-time
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
+    PaginationResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          nullable: true
+          items:
+            type: object
+        totalElements:
+          type: integer
+          format: int64
+          nullable: true
+        totalPages:
+          type: integer
+          format: int32
+          nullable: true
+        currentPage:
+          type: integer
+          format: int32
+          nullable: true
     DistributorTermsAndConditionsDTO:
       required:
       - content
@@ -3071,12 +3491,14 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
         templateId:
           type: string
           format: uuid
+          nullable: true
         title:
           type: string
         content:
@@ -3089,30 +3511,40 @@ components:
         expirationDate:
           type: string
           format: date-time
+          nullable: true
         signedDate:
           type: string
           format: date-time
+          nullable: true
         signedBy:
           type: string
           format: uuid
+          nullable: true
         status:
           type: string
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         notes:
           type: string
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
         distributor:
           $ref: "#/components/schemas/DistributorDTO"
         template:
@@ -3127,6 +3559,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -3139,39 +3572,30 @@ components:
         managedByAgentId:
           type: string
           format: uuid
+          nullable: true
         agencyId:
           type: string
           format: uuid
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
-    PaginationResponse:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            type: object
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        currentPage:
-          type: integer
-          format: int32
+          nullable: true
     DistributorAuthorizedTerritoryDTO:
       required:
       - countryId
@@ -3181,6 +3605,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -3190,34 +3615,44 @@ components:
         administrativeDivisionId:
           type: string
           format: uuid
+          nullable: true
         authorizationLevel:
           type: string
+          nullable: true
           enum:
           - COUNTRY
           - REGION
           - CITY
         isActive:
           type: boolean
+          nullable: true
         authorizedFrom:
           type: string
           format: date-time
+          nullable: true
         authorizedUntil:
           type: string
           format: date-time
+          nullable: true
         notes:
           type: string
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     DistributorConfigurationDTO:
       required:
       - configKey
@@ -3230,15 +3665,18 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
         agencyId:
           type: string
           format: uuid
+          nullable: true
         agentId:
           type: string
           format: uuid
+          nullable: true
         scopeId:
           type: string
           format: uuid
@@ -3251,32 +3689,43 @@ components:
           format: uuid
         category:
           type: string
+          nullable: true
         description:
           type: string
+          nullable: true
         isSensitive:
           type: boolean
+          nullable: true
         isOverridable:
           type: boolean
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         effectiveFrom:
           type: string
           format: date-time
+          nullable: true
         effectiveUntil:
           type: string
           format: date-time
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     DistributorAgentDTO:
       required:
       - distributorId
@@ -3289,6 +3738,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -3297,6 +3747,7 @@ components:
           format: uuid
         employeeCode:
           type: string
+          nullable: true
         firstName:
           type: string
         lastName:
@@ -3305,48 +3756,66 @@ components:
           type: string
         phoneNumber:
           type: string
+          nullable: true
         avatarUrl:
           type: string
+          nullable: true
         department:
           type: string
+          nullable: true
         unit:
           type: string
+          nullable: true
         jobTitle:
           type: string
+          nullable: true
         addressLine:
           type: string
+          nullable: true
         postalCode:
           type: string
+          nullable: true
         city:
           type: string
+          nullable: true
         state:
           type: string
+          nullable: true
         countryId:
           type: string
           format: uuid
+          nullable: true
         administrativeDivisionId:
           type: string
           format: uuid
+          nullable: true
         hireDate:
           type: string
           format: date
+          nullable: true
         terminationDate:
           type: string
           format: date
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
     DistributorAgencyDTO:
       required:
       - code
@@ -3358,6 +3827,7 @@ components:
         id:
           type: string
           format: uuid
+          nullable: true
         distributorId:
           type: string
           format: uuid
@@ -3367,65 +3837,91 @@ components:
           type: string
         description:
           type: string
+          nullable: true
         countryId:
           type: string
           format: uuid
         administrativeDivisionId:
           type: string
           format: uuid
+          nullable: true
         addressLine:
           type: string
+          nullable: true
         postalCode:
           type: string
+          nullable: true
         city:
           type: string
+          nullable: true
         state:
           type: string
+          nullable: true
         phoneNumber:
           type: string
+          nullable: true
         email:
           type: string
+          nullable: true
         legalEntityName:
           type: string
+          nullable: true
         legalFormId:
           type: string
           format: uuid
+          nullable: true
         taxId:
           type: string
+          nullable: true
         registrationNumber:
           type: string
+          nullable: true
         vatNumber:
           type: string
+          nullable: true
         fiscalAddressLine:
           type: string
+          nullable: true
         fiscalPostalCode:
           type: string
+          nullable: true
         fiscalCity:
           type: string
+          nullable: true
         fiscalState:
           type: string
+          nullable: true
         fiscalCountryId:
           type: string
           format: uuid
+          nullable: true
         isHeadquarters:
           type: boolean
+          nullable: true
         isActive:
           type: boolean
+          nullable: true
         openedAt:
           type: string
           format: date-time
+          nullable: true
         closedAt:
           type: string
           format: date-time
+          nullable: true
         createdAt:
           type: string
           format: date-time
+          nullable: true
         createdBy:
           type: string
           format: uuid
+          nullable: true
         updatedAt:
           type: string
           format: date-time
+          nullable: true
         updatedBy:
           type: string
           format: uuid
+          nullable: true
